@@ -5,7 +5,7 @@ date: "17 09 2021"
 output: pdf_document
 ---
 
-Here we provide code for preparation of figures, that were further graphically adjusted using graphical software. 
+## Here we provide code for preparation of figures, that were further graphically adjusted using graphical software. 
 
 ```{r, warning = FALSE, message = FALSE}
 # Load required libraries.
