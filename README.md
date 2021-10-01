@@ -38,8 +38,8 @@ On GEO we deposited results of three different experiments.
 
 First we created the function to upload the data and combine each of matrices into single matrix.
 
-```
-# function to import set of matrices from single directory and combine them
+```diff
++ # function to import set of matrices from single directory and combine them
 import_counts <- function(dir, header = TRUE) {
   require (rlist)
   files <- list.files (dir)
