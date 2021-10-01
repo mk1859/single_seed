@@ -55,7 +55,7 @@ data_dry_dog1 <- import_counts ("/matrix/dog1_htseq/", header = FALSE)
 
 Our library preparation protocol is design to detect mRNAs. To filter out non-protein coding genes we need reference file with information about gene types.
 
-```
+``` R
 Araport <- read.csv ("Araport.txt", sep = "\t", header = TRUE)
 
 head (Araport)
