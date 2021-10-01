@@ -36,21 +36,21 @@ On GEO we deposited results of three different experiments.
 
 3) RNA-seq results for analysis of *dog1-4* and Col-0 dry seed pools (3 biological replicas). Here we provide read counts as separate files for each of replicas. 
 
-We created the function called import_counts to upload the data and combine each of matrices into single matrix.
+We created the function called import_counts to upload the data and combine matrices into single matrix.
 
 Data for time-course experiment.
 ```
-data_timecourse <- import_counts ("/home/rstudio/matrix/timecourse/")
+data_timecourse <- import_counts ("matrix/timecourse/")
 ```
 
 Data for *dog1-4* and Col-0 single seed experiment.
 ```
-data_dog1 <- import_counts ("/home/rstudio/matrix/dog1/")
+data_dog1 <- import_counts ("matrix/dog1/")
 ```
 
 Data for *dog1-4* and Col-0 seed pool experiment.
 ```
-data_dry_dog1 <- import_counts ("/home/rstudio/matrix/dog1_htseq/", header = FALSE)
+data_dry_dog1 <- import_counts ("matrix/dog1_htseq/", header = FALSE)
 ```
 
 
