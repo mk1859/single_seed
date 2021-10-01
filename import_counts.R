@@ -1,15 +1,13 @@
-# R function to upload set of matrices contatining read counts (with the same set of genes).
+# R function to upload set of matrices contatining read counts (with the same set of genes) from a directory.
 # It assumes each matrix have gene names as row names.
+# It is possible to set if matrices contain column names
 
-
-import_counts <- function(
-                          dir, #
-header = TRUE) {
+import_counts <- function(directory, header = TRUE) {
   require (rlist)
-  files <- list.files (dir)
-  matrices <- lapply (files, function (x){
-    read.csv (paste0(dir, x), sep = "\t", header = header, row.names =1)
+  files <- list.files (directory)
+  matrix <- lapply (files, function (x){
+    read.csv (paste0(directory, x), sep = "\t", header = header, row.names =1)
   })
-  matrices <- list.cbind(matrices)
-  return (matrices)
+  matrix <- list.cbind(matrix)
+  return (matrix)
 }
