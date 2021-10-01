@@ -60,6 +60,7 @@ Araport <- read.csv ("Araport.txt", sep = "\t", header = TRUE)
 
 head (Araport)
 ```
+```
        gene           type
 1 AT1G01010 protein_coding
 2 AT1G01020 protein_coding
@@ -67,6 +68,7 @@ head (Araport)
 4 AT1G01040 protein_coding
 5 AT1G01050 protein_coding
 6 AT1G01060 protein_coding
+```
 
 ## Pre-filter single seed data
 
