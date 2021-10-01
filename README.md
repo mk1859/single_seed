@@ -65,3 +65,9 @@ head (Araport)
 5   1 Araport11    gene 31170 33171     .      -     . AT1G01050 protein_coding
 6   1 Araport11    gene 33365 37871     .      -     . AT1G01060 protein_coding
 ```
+
+## Pre-filter single seed data
+
+Simirally to single cell experiments
+
+prefilter_matrix
