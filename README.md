@@ -37,9 +37,9 @@ On GEO we deposited results of three different experiments.
 3) RNA-seq results for analysis of *dog1-4* and Col-0 dry seed pools (3 biological replicas). Here we provide read counts as separate files for each of replicas. 
 
 First we created the function to upload the data and combine each of matrices into single matrix.
+It uses directory and information if column names are present in files.
 
-```diff
-+ # function to import set of matrices from single directory and combine them
+```
 import_counts <- function(dir, header = TRUE) {
   require (rlist)
   files <- list.files (dir)
