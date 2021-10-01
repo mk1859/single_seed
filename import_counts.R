@@ -1,6 +1,6 @@
 # R function to upload set of matrices contatining read counts (with the same set of genes) from a directory.
 # It assumes each matrix have gene names as row names.
-# It is possible to set if matrices contain column names
+# It is possible to set if matrices contain column names.
 
 import_counts <- function(directory, header = TRUE) {
   require (rlist)
