@@ -39,35 +39,38 @@ On GEO we deposited results of three different experiments.
 We created the function called import_counts to upload the data and combine matrices into single matrix.
 
 Data for time-course experiment.
-```
-data_timecourse <- import_counts ("matrix/timecourse/", header = TRUE)
+``` R
+data_timecourse <- import_counts ("/matrix/timecourse/", header = TRUE)
 ```
 
 Data for *dog1-4* and Col-0 single seed experiment.
-```
-data_dog1 <- import_counts ("matrix/dog1/", header = TRUE)
+``` R
+data_dog1 <- import_counts ("/matrix/dog1/", header = TRUE)
 ```
 
 Data for *dog1-4* and Col-0 seed pool experiment.
-```
-data_dry_dog1 <- import_counts ("matrix/dog1_htseq/", header = FALSE)
+``` R
+data_dry_dog1 <- import_counts ("/matrix/dog1_htseq/", header = FALSE)
 ```
 
 Our library preparation protocol is design to detect mRNAs. To filter out non-protein coding genes we need reference file with information about gene types.
 
 ```
+Araport <- read.csv ("Araport.txt", sep = "\t", header = TRUE)
+
 head (Araport)
-  chr    source feature start   end score strand frame      gene           type
-1   1 Araport11    gene  3631  5899     .      +     . AT1G01010 protein_coding
-2   1 Araport11    gene  6788  9130     .      -     . AT1G01020 protein_coding
-3   1 Araport11    gene 11649 13714     .      -     . AT1G01030 protein_coding
-4   1 Araport11    gene 23121 31227     .      +     . AT1G01040 protein_coding
-5   1 Araport11    gene 31170 33171     .      -     . AT1G01050 protein_coding
-6   1 Araport11    gene 33365 37871     .      -     . AT1G01060 protein_coding
+       gene           type
+1 AT1G01010 protein_coding
+2 AT1G01020 protein_coding
+3 AT1G01030 protein_coding
+4 AT1G01040 protein_coding
+5 AT1G01050 protein_coding
+6 AT1G01060 protein_coding
 ```
 
 ## Pre-filter single seed data
 
-Simirally to single cell experiments
+Simirally to single cell experiments our count data is quite sparse. We need to clean our data by:
+
 
 prefilter_matrix
