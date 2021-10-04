@@ -103,14 +103,13 @@ To plot number of sequenced reads and identified genes per seed in matrix, we cr
 
 time-course experiment
 ``` R
-nreads_plot (filtered_timecourse, c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
+nreads_plot (filtered_timecourse, order= c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/nreads_timecourse.png" width=50% height=50%>
 
 
-
 dog1 experiment
 ``` R
-nreads_plot (filtered_dog1, c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"))
+nreads_plot (filtered_dog1, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"))
 ```
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/nreads_dog1.png" width=50% height=50%>
