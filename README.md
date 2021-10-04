@@ -85,14 +85,19 @@ We require mean expression of gene to be at least 1 read per seed for gene to be
 ``` R
 # time-course experiment
 filtered_timecourse <- prefilter_matrix (data_timecourse, mean_exp=1, n_reads=5000)
-dim (filtered_timecourse) # genes / seeds remaining
 
 # dog1 experiment
 filtered_dog1 <- prefilter_matrix (data_dog1, mean_exp=1, n_reads=5000)
-dim (filtered_dog1) # genes / seeds remaining
 ```
+``` 
+# time-course experiment
+dim (filtered_timecourse) # genes / seeds remaining
+[1] 8687  659
 
-
+# dog1 experiment
+dim (filtered_dog1) # genes / seeds remaining
+[1] 10989   382
+```
 
 
 
