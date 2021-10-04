@@ -113,3 +113,9 @@ dog1 experiment
 nreads_plot (filtered_dog1, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"))
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/nreads_dog1.png" width=50% height=50%>
+
+## Filter seeds for number of background reads
+
+Calculation for number of background/intergenic reads.
+
+
