@@ -79,4 +79,20 @@ Simirally to single cell experiments our count data is quite sparse. We need to 
 4) filtering out genes with low count number
 5) filtering seeds with few reads
 
-To do that we creted finction prefilter_matrix and appllayed it to our single seed matrices:
+To do that we creted finction prefilter_matrix and appllayed it to our single seed matrices.
+We require mean expression of gene to be at least 1 read per seed for gene to be included and at least 5,000 reads per seed for seed to be included.
+
+``` R
+# time-course experiment
+filtered_timecourse <- prefilter_matrix (data_timecourse, mean_exp=1, n_reads=5000)
+dim (filtered_timecourse) # genes / seeds remaining
+
+# dog1 experiment
+filtered_dog1 <- prefilter_matrix (data_dog1, mean_exp=1, n_reads=5000)
+dim (filtered_dog1) # genes / seeds remaining
+```
+
+
+
+
+
