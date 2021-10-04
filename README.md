@@ -127,4 +127,16 @@ background_timecourse <- background_reads (data_timecourse, filtered_timecourse)
 background_dog1 <- background_reads (data_dog1, filtered_dog1)
 ```
 
-Then we made plots for number of sequenced reads and background level .Again we created custome function for that.
+Then we made plots for number of sequenced reads and background level. Again we created custome function for that.
+
+time-course experiment
+``` R
+background_plot (filtered_timecourse, c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), 
+                 background_timecourse)
+```
+
+dog1 experiment
+``` R
+background_plot (filtered_dog1, c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), 
+                 background_dog1)
+```
