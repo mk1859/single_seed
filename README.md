@@ -73,6 +73,10 @@ head (Araport)
 ## Pre-filter single seed data
 
 Simirally to single cell experiments our count data is quite sparse. We need to clean our data by:
+1) removal of non-protein coding genes
+2) removel of genes encoded in organells
+3) removal of summary lines at last rows of count matrix
+4) filtering out genes with low count number
+5) filtering seeds with few reads
 
-
-prefilter_matrix
+To do that we creted finction prefilter_matrix and appllayed it to our single seed matrices:
