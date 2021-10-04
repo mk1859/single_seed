@@ -105,7 +105,7 @@ time-course experiment
 ``` R
 nreads_plot (filtered_timecourse, c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
 ```
-!timecourse_plot_nreads](nreads_timecourse.png)
+!(nreads_timecourse.png)
 
 
 dog1 experiment
