@@ -134,9 +134,11 @@ time-course experiment
 background_plot (filtered_timecourse, c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), 
                  background_timecourse)
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/background_timecourse.png" width=50% height=50%>
 
 dog1 experiment
 ``` R
 background_plot (filtered_dog1, c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), 
                  background_dog1)
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/background_dog1.png" width=50% height=50%>
