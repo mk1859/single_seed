@@ -99,5 +99,8 @@ dim (filtered_dog1) # genes / seeds remaining
 [1] 10989   382
 ```
 
+To plot number of sequenced reads and identified genes per seed, we created function that require also defined order of treatments as input
+#function to create multipanel diagram, takes also order of time points as input
 
+Plots for 
 
