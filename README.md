@@ -117,8 +117,14 @@ nreads_plot (filtered_dog1, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h"
 ## Filter seeds for number of background reads
 
 As it is visible above our libraries differ in number of identified genic reads. One source of that may be different quality of libraries.
-To estimate their quality we decied to estimate amount of off-target reads (not in protein coding genes) for each seed by using created function.
+To estimate their quality we decied to count fraction of off-target reads (not in protein coding genes) for each seed by using created function.
 
 Function uses raw and pre-filtered matices as input.
 
+``` R
+background_timecourse <- background_reads (data_timecourse, filtered_timecourse)
 
+background_dog1 <- background_reads (data_dog1, filtered_dog1)
+```
+
+Then we made plots for number of sequenced reads and background level .Again we created custome function for that.
