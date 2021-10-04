@@ -99,8 +99,17 @@ dim (filtered_dog1) # genes / seeds remaining
 [1] 10989   382
 ```
 
-To plot number of sequenced reads and identified genes per seed, we created function that require also defined order of treatments as input
-#function to create multipanel diagram, takes also order of time points as input
+To plot number of sequenced reads and identified genes per seed in matrix, we created function that require also defined order of treatments as input.
 
-Plots for 
+time-course experiment
+``` R
+nreads_plot (filtered_timecourse, c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
+```
+
+
+
+dog1 experiment
+``` R
+nreads_plot (filtered_dog1, c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"))
+```
 
