@@ -175,11 +175,11 @@ time-course experiment
 ``` R
 corr_number (correlation_timecourse, treshold = 0.3)
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/area_timecourse.png" width=50% height=10%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/area_timecourse.png" width=10% height=10%>
 
 dog1 experiment
 ``` R
 corr_number (correlation_dog1, treshold = 0.3)
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/area_dog1.png" width=50% height=10%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/area_dog1.png" width=10% height=10%>
 
