@@ -168,3 +168,7 @@ dog1 experiment
 corr_hist (correlation_dog1, treshold = 0.3, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h", "all"))
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_dog1.png" width=50% height=50%>
+
+As genes can be correlated to the background in severla treatments we created a plot showing how many genes were found correlated.
+
+
