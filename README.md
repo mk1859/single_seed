@@ -171,4 +171,15 @@ corr_hist (correlation_dog1, treshold = 0.3, order = c ("SD_Col0_3d","SD_dog1_3d
 
 As genes can be correlated to the background in severla treatments we created a plot showing how many genes were found correlated.
 
+time-course experiment
+``` R
+corr_number (correlation_timecourse, treshold = 0.3)
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/area_timecourse.png" width=50% height=50%>
+
+dog1 experiment
+``` R
+corr_number (correlation_dog1, treshold = 0.3)
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/area_dog1.png" width=50% height=50%>
 
