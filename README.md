@@ -157,5 +157,13 @@ correlation_dog1 <- correlation_table (filtered_dog1, background_dog1)
 
 We created histograms to show fraction of genes showing correlation to background reads above treshold of 0.3 using created function. 
 
+time-course experiment
+``` R
+corr_hist (correlation_timecourse, treshold = 0.3, order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS", "all"))
+```
 
 
+dog1 experiment
+``` R
+corr_hist (correlation_dog1, treshold = 0.3, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h", "all"))
+```
