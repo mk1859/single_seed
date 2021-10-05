@@ -199,3 +199,12 @@ nrow (filtered_dog1) # genes remaining
 ```
 [1] 9110
 ```
+
+## Seurat object
+
+We obtained final matrices of counts for both single seed experiments. Now we prepare Seurat object (REF) with sctransform normalization (REF).
+To do that we prepared wraper function that takes matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as varaible to regress.
+
+
+
+
