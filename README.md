@@ -161,7 +161,7 @@ time-course experiment
 ``` R
 corr_hist (correlation_timecourse, treshold = 0.3, order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS", "all"))
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_timecourse.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_timepoint.png" width=50% height=50%>
 
 dog1 experiment
 ``` R
