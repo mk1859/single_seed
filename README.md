@@ -149,9 +149,13 @@ In addition strength of "true" peaks is negatievly correlated with number of bac
 Based on this observations we decided to remove from our analysis genes which read count number is strongly postively correlated with number of background reads among the seeds.
 As gene expression pattern is different between treatments, we calculated that correlations for each treatment separetly as well as for all seeds. To do that we created function called correlation_table.
 
+``` R
+correlation_timecourse <- correlation_table (filtered_timecourse, background_timecourse)
 
+correlation_dog1 <- correlation_table (filtered_dog1, background_dog1)
+```
 
-
+We created histograms to show fraction of genes showing correlation to background reads above treshold of 0.3 using created function. 
 
 
 
