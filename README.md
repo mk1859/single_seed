@@ -183,3 +183,19 @@ corr_number (correlation_dog1, treshold = 0.3)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/area_dog1.png" width=10% height=10%>
 
+Fianally we remove from our pre-filtered matrices genes showing read count correlation to background reads higher than 0.3 in any treatment or when all seeds considered.
+
+``` R
+filtered_timecourse <- filtered_timecourse [-which (rowMaxs (correlation_timecourse) > 0.3),]
+nrow (filtered_timecourse) # genes remaining
+```
+```
+[1] 6430
+```
+``` R
+filtered_dog1 <- filtered_dog1 [-which (rowMaxs (correlation_dog1) > 0.3),]
+nrow (filtered_dog1) # genes remaining
+```
+```
+[1] 9110
+```
