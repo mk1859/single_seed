@@ -205,6 +205,13 @@ nrow (filtered_dog1) # genes remaining
 We obtained final matrices of counts for both single seed experiments. Now we prepare Seurat object (REF) with sctransform normalization (REF).
 To do that we prepared wraper function that takes matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as varaible to regress.
 
+Time-course experiment. Here, due to high background content in some libaraies we regressed fraction of background reads.
+``` R
+seurat_timecourse <- seurat_object (filtered_timecourse, background = background_timecourse)
+```
 
-
+DOG1 experiment. Here, we did not regress fraction of background reads.
+``` R
+seurat_dog1 <- seurat_object (filtered_dog1, background = background_dog1, include_background = FALSE)
+```
 
