@@ -225,7 +225,7 @@ pca_discrete (seurat_timecourse, type = "timepoint", tableu = "Tableau 10")
 
 pca_discrete (seurat_timecourse, type = "batch", tableu = "Tableau 20", excluded ="SD7dPS")
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/pca_timepoint_timecourse.png" width=50% height=50%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_timecourse.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/pca_timepoint_timecourse.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_timecourse.png" width=33% height=33%>
 
 dog1 experiment
 ``` R
