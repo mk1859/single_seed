@@ -2,6 +2,7 @@
 
 pca_discrete <- function (seurat_obj, type = "timepoint", tableu ="Tableau 10", excluded = NULL) {
   require(Seurat)
+  require (ggplot2)
   
   # export data from Seurat object
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data)
