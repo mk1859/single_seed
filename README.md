@@ -257,3 +257,19 @@ pca_continuous (seurat_dog1, column = "n_gene")
 pca_continuous (seurat_dog1, column = "background")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_reads_dog1.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_genes_dog1.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_background_dog1.png" width=33% height=33%>
+
+## Differential gene expression
+
+To compare gene expression changes between two sets of conditions we created wrapper function to Seurat FindMarkers.
+
+For time-course experiment we compared sequential time points.
+
+
+For dog1 experiment we compared mutant and wild type in two time points.
+
+
+
+
+
+
+
