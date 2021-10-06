@@ -215,3 +215,7 @@ DOG1 experiment. Here, we did not regress fraction of background reads.
 seurat_dog1 <- seurat_object (filtered_dog1, background = background_dog1, include_background = FALSE)
 ```
 
+We calculated PCA during preparation of Seurat objects. Now we ploted it to show tratments and batches (libraries).
+To do this we prepared function exporting dimention reduction and metadata from Seurat object. 
+It is possible to chose color pallet from ggthemes and exclude some treatments from the plot.
+
