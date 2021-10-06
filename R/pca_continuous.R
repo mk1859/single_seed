@@ -13,7 +13,7 @@ pca_continuous <- function(seurat_obj, column, excluded = NULL) {
   }
   
   g <- ggplot(plot, aes(x=PC_1, y= PC_2, color = .data[[column]])) +
-            geom_point (size = 1) + 
+            geom_point (size = 2) + 
             scale_colour_viridis() +
             theme_classic () +
             theme(axis.line=element_blank(),
