@@ -235,3 +235,13 @@ pca_discrete (seurat_dog1, type = "batch", tableu = "Tableau 20")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_treatment_dog1.png" width=40% height=40%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_dog1.png" width=40% height=40%>
 
+Some technical parameters like number of reads, number of identified genes and fraction of backround reads per seed may affect position of seeds on the map.
+To check continous values we crate another plotting function.
+
+time-course experiment
+``` R
+pca_discrete (seurat_timecourse, type = "timepoint", tableu = "Tableau 10")
+
+pca_discrete (seurat_timecourse, type = "batch", tableu = "Tableau 20", excluded ="SD7dPS")
+```
+
