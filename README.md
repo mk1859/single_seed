@@ -233,5 +233,5 @@ pca_discrete (seurat_dog1, type = "timepoint", tableu = "Tableau 10")
 
 pca_discrete (seurat_dog1, type = "batch", tableu = "Tableau 20")
 ```
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/pca_treatment_dog1.png" width=40% height=40%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_dog1.png" width=40% height=40%>
 
