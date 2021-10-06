@@ -247,3 +247,13 @@ pca_continuous (seurat_timecourse, column = "n_gene")
 pca_continuous (seurat_timecourse, column = "background")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_reads_timecourse.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_genes_timecourse.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_background_timecourse.png" width=33% height=33%>
+
+dog1 experiment
+``` R
+pca_continuous (seurat_dog1, column = "log10_reads")
+
+pca_continuous (seurat_dog1, column = "n_gene")
+
+pca_continuous (seurat_dog1, column = "background")
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/pca_reads_dog1.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_genes_dog1.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_background_dog1.png" width=33% height=33%>
