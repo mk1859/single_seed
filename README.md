@@ -240,8 +240,10 @@ To check continous values we crate another plotting function.
 
 time-course experiment
 ``` R
-pca_discrete (seurat_timecourse, type = "timepoint", tableu = "Tableau 10")
+pca_continuous (seurat_timecourse, column = "log10_reads")
 
-pca_discrete (seurat_timecourse, type = "batch", tableu = "Tableau 20", excluded ="SD7dPS")
+pca_continuous (seurat_timecourse, column = "n_gene")
+
+pca_continuous (seurat_timecourse, column = "background")
 ```
 
