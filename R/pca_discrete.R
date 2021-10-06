@@ -12,7 +12,7 @@ pca_discrete <- function (seurat_obj, type = "timepoint", tableu ="Tableau 10", 
   }
   
   g <- ggplot(plot, aes(x=PC_1, y= PC_2, color = .data[[type]])) +
-            geom_point (size = 1) + 
+            geom_point (size = 2) + 
             scale_color_tableau(tableu) +
             theme_classic() +
             theme(axis.line=element_blank(),
