@@ -282,4 +282,4 @@ It takes parameters of the plot as input.
 ``` R
 deg_plot (deg_timecourse, direction = TRUE, limits = c(-400,800), by = 200)
 ``` 
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/number_degs.png" width=50% height=50%>
