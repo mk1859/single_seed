@@ -279,6 +279,7 @@ deg_dog1 <- deg_list (seurat_dog1, vector1 = c ("SD_Col0_3d","SD_Col0_7d24h"),
 We plotted number of DEGs with division for upregulated and downregulated genes using custom function.
 It takes parameters of the plot as input.
 
-
-
+``` R
+deg_plot (deg_timecourse, direction = TRUE, limits = c(-400,800), by = 200)
+``` 
 
