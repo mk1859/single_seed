@@ -33,8 +33,9 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
     # function for cleaning columns of data frame
     clean <- function (filt_frame,term) {
                  sel_column <- filt_frame [,grep(term, colnames(filt_frame))]
-                 column_list <- apply (sel_column, 2, function (x) x )
-                 coalesce(!!!column_list)
+                 column_list <- as.list (sel_column)
+                 column_list <- coalesce(!!!column_list)
+                return (column_list)
                 }
     
     # create new clean data frame
@@ -43,19 +44,18 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
                            category = clean(all_list, "source"),
                            parent = clean(all_list, "parentTerm"))
                            
-    
+    all_res <- cbind(all_res, all_list [, grep("p_value", colnames(all_list))])
     colnames(all_res) [-c(1:4)] <- names (gene_lists)
   
     return (all_res)
   
-  } else { #single list
+   # one element list 
+   } else { 
     all_res <- data.frame (term_id = all_list$term_id,
-                         term_name = all_list$term_name,
-                         category = all_list$source,
-                         parent = all_list$parentTerm,
-                         value = as.numeric(all_list$p_value))
-  return (all_res)
-    
-  }
-  
+                           term_name = all_list$term_name,
+                           category = all_list$source,
+                           parent = all_list$parentTerm,
+                           value = as.numeric(all_list$p_value))
+    return (all_res)
+    }
 }
