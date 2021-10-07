@@ -1,4 +1,4 @@
-# analysis of multiple GO categories by warpping go_res function on BP, CC and MF ontology categories
+# analysis of multiple GO categories by warpping go_res.R function on BP, CC and MF ontology categories
 
 multiple_category <- function(genes, background, p_value = 0.05, rrvgo_threshold=0.8) {
     require (gprofiler2)
