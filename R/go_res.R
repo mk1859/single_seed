@@ -4,6 +4,7 @@
 go_res <- function(genes, background, p_value = 0.05, category = "BP", rrvgo_threshold=0.8) {
     require (gprofiler2)
     require (rrvgo)
+    require (org.At.tair.db)
     
     # enrichment calculation
     res <- gost(query = genes, organism = "athaliana", custom_bg = background, user_threshold = p_value, sources = "GO")$result
