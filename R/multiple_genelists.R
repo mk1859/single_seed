@@ -35,7 +35,7 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
                  sel_column <- filt_frame [,grep(term, colnames(filt_frame))]
                  column_list <- as.list (sel_column)
                  column_list <- coalesce(!!!column_list)
-                return (column_list)
+                 return (column_list)
                 }
     
     # create new clean data frame
