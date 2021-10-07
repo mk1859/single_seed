@@ -37,12 +37,14 @@ signature_map <- function (seurat_obj, signature, excluded = NULL, order, column
           theme_classic() +
           theme(legend.position = "none",
               strip.background = element_blank(),
-              axis.title.x = element_blank())
+              axis.title.x = element_blank(), 
+              axis.title.y = element_blank(),
+              axis.text.x = element_blank())
   
   # combine plots
   g <- ggdraw() +
          draw_plot(g1) +
-         draw_plot(g2, x = 0, y = .75, width = .25, height = .25)
+         draw_plot(g2, x = 0, y = .7, width = .25, height = .3)
     
   return (g)
 }
