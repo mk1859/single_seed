@@ -41,8 +41,7 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
     all_res <- data.frame (term_id = all_list$term_id,
                            term_name = clean(all_list, "term_name"),
                            category = clean(all_list, "source"),
-                           parent = clean(all_list, "parentTerm"),
-                           p_value = all_list [,"p_value"])
+                           parent = clean(all_list, "parentTerm"))
                            
     
     colnames(all_res) [-c(1:4)] <- names (gene_lists)
