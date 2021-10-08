@@ -3,6 +3,8 @@
 gene_exp <- function(seurat_obj, gene, order, column) {
   require (cowplot)
   require (ggplot2)
+  require (ggthemes)
+  require (viridis)
   
   # export normalized data and filter for gene
   gene_exp <- as.data.frame(GetAssayData (seurat_obj, slot = "data")) 
