@@ -1,7 +1,7 @@
 # PCA plot with discrete values coloring
 
 pca_discrete <- function (seurat_obj, type = "timepoint", tableu ="Tableau 10", excluded = NULL) {
-  require(Seurat)
+  require (Seurat)
   require (ggplot2)
   require (ggthemes)
   
