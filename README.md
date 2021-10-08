@@ -186,6 +186,7 @@ corr_number (correlation_dog1, treshold = 0.3)
 Fianally we remove from our pre-filtered matrices genes showing read count correlation to background reads higher than 0.3 in any treatment or when all seeds considered.
 
 ``` R
+library (matrixStats)
 filtered_timecourse <- filtered_timecourse [-which (rowMaxs (correlation_timecourse) > 0.3),]
 nrow (filtered_timecourse) # genes remaining
 ```
