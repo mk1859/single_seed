@@ -1,7 +1,8 @@
 # function that requires both raw and pre-filtered matrices as input and returns fraction of intergenic reads per seed from pre-filtered matrix
 
 background_reads <- function(matrix, prefiltered) {
-
+  require (dplyr)
+  
   #count background reads 
   background_reads <- matrix  %>% 
   filter(rownames(matrix) %in% 
