@@ -5,6 +5,7 @@
 deg_plot <- function(deg_list, direction = TRUE, limits = c(-400,800), by = 200) {
   require (rlist)
   require (ggthemes)
+  require (ggplot2)
   
   # show separately up- and downregulated genes
   if (direction == TRUE) { 
