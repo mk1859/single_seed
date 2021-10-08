@@ -8,6 +8,8 @@ go_pca_map <-  function (seurat_obj, go_id, excluded = NULL, order, column) {
   require (org.At.tair.db)
   require (biomaRt)
   require (GO.db)
+  require (ggthemes)
+  require (viridis)
   
   # export genes included in single seed matrix
   genes <- rownames(GetAssayData(seurat_obj, assay = "SCT", slot = "data"))
