@@ -14,7 +14,7 @@ gene_exp <- function(seurat_obj, gene, order, column) {
   gene_exp <- cbind(gene_exp, as.data.frame (Embeddings(object = seurat_obj, reduction = "pca")) [,1:2], seurat_obj@meta.data)       
   
   # set order of treatments
-  plot [,eval(column)] <- factor(plot [,eval(column)], levels = order)
+  gene_exp [,eval(column)] <- factor(gene_exp [,eval(column)], levels = order)
   
   # PCA map
   g1 <- ggplot(gene_exp, aes(x=PC_1, y= PC_2, color =	.data[[gene]])) +
