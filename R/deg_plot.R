@@ -3,7 +3,8 @@
 # limits and by is passed to x axis 
 
 deg_plot <- function(deg_list, direction = TRUE, limits = c(-400,800), by = 200) {
-  require(rlist)
+  require (rlist)
+  require (ggthemes)
   
   # show separately up- and downregulated genes
   if (direction == TRUE) { 
