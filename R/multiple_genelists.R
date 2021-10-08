@@ -7,6 +7,7 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
     require (rrvgo)
     require (org.At.tair.db)
     require (rlist)
+    require (dplyr)
 
     # multiple categories
     if (category == "all") { 
