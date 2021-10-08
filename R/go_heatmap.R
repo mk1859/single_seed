@@ -4,14 +4,12 @@
 
 go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_term = TRUE, single_condition = FALSE) {
   require (cowplot)
-  require (ggplot2)
   
   if (single_condition == TRUE) {
     plot <- res_file [order(-log10(res_file$value)),]
-    plot$variable <- "single"
+    plot$variable <- "x"
     
-  # multiple element lists
-  } else { 
+  } else { # multiple lists
   
   plot <- res_file [order(res_file$category, res_file$parent, -log10(res_file [,ncol(res_file)])),]
   order_go <- as.factor(plot$term_id)
@@ -20,8 +18,7 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
   
   }
   
-  # term name or term id on the plot
-  if (term_name == TRUE) {
+  if (term_name == TRUE) { # term name or term id on the plot
     g1 <- ggplot(plot, aes(variable, term_name)) + 
             geom_tile(aes(fill = -log10(value))) + 
             scale_fill_gradient2(low = "midnightblue", 
@@ -46,7 +43,9 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
                   axis.text.y=element_blank(),
                   axis.ticks=element_blank(),
                   axis.title.x=element_blank(),
-                  axis.title.y=element_blank()) 
+                  axis.title.y=element_blank()) +
+            labs (fill = "ontology")
+    
   
   g3 <- ggplot(plot, aes(1, term_id, fill = as.factor(parent))) + 
             geom_tile() + 
@@ -57,24 +56,25 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
                   axis.text.y=element_blank(),
                   axis.ticks=element_blank(),
                   axis.title.x=element_blank(),
-                  axis.title.y=element_blank())
+                  axis.title.y=element_blank()) +
+            labs (fill = "parent")
 
-  # create multipanel plot
+   # create multipanel plot
   if (term_category == TRUE & parent_term == TRUE) {
     g <- plot_grid(g3, g2, g1, nrow = 1, align = "h", 
-               rel_widths = c(0.75,0.5,2))
+               rel_widths = c(0.75,0.5,1.5))
     return (g)
   }
   
   if (term_category == TRUE & parent_term == FALSE) {
     g <- plot_grid(g2, g1, nrow = 1, align = "h", 
-               rel_widths = c(0.5,2))
+               rel_widths = c(0.5,1.5))
     return (g)
   }
   
   if (term_category == FALSE & parent_term == TRUE) {
     g <- plot_grid(g3, g1, nrow = 1, align = "h", 
-               rel_widths = c(0.75,2))
+               rel_widths = c(0.75,1.5))
     return (g)
   }
   
