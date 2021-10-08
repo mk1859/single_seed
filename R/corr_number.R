@@ -1,5 +1,7 @@
 # function to create area plot showing number of genes showing correlation to the background reads
 corr_number <- function(corr_table, treshold = 0.3) {
+  require (ggthemes)
+  require (ggplot2)
 
   # count genes with treatments above threshold of correlation
   corr_sum <- apply (corr_table,2, function (x) ifelse (x > treshold , 1, 0) )
