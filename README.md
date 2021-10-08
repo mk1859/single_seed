@@ -337,7 +337,7 @@ We created custome function to plot normalized expression of gene on PCA plot wi
 ``` R
 gene_exp (seurat_timecourse, gene = "AT2G36270", order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
 ```
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/abi5.png" width=50% height=50%>
 
 We identified 500 most varaibly expressed genes in time-course experiment and looked for GO terms enriched among them in BP ontology.
 
