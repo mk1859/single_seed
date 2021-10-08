@@ -283,3 +283,41 @@ It takes parameters of the plot as input.
 deg_plot (deg_timecourse, direction = TRUE, limits = c(-400,800), by = 200)
 ``` 
 <img src="https://github.com/mk1859/single_seed/blob/main/images/number_degs.png" width=50% height=50%>
+
+To analyze GO terms enriched among affected genes and plot them we created set of interdepended functions:
+go_res.R, multiple_category.R, multiple_genelists.R, go_heatmap.R, go_bubble.R and go_pca_map.R
+
+We noticed that in three comparisons in time-course experiment genes involved in translation are significantly enriched.
+
+``` R
+translation_list <- list()
+translation_list$SD1d_up <- rownames (deg_timecourse$SD1h_SD1d [deg_timecourse$SD1h_SD1d$avg_log2FC > 0,])
+translation_list$SD3d_down <- rownames (deg_timecourse$SD1d_SD3d [deg_timecourse$SD1d_SD3d$avg_log2FC < 0,])
+translation_list$SD7d24h_up <- rownames (deg_timecourse$SD7d_SD7d24h [deg_timecourse$SD7d_SD7d24h$avg_log2FC > 0,])
+
+# function to create data frame with enriched go terms in lists of genes, 
+# using rrvgo package it also generalizes results by finding parent GO terms
+
+translation_go <- multiple_genelists (translation_list, background = rownames(filtered_timecourse), 
+                                      p_value = 0.05, rrvgo_threshold=0.99)
+                                      
+# plotting heatmap of GO terms enrichment p-values, with GO id instead of GO term names with term ontology and parent GO terms indicated                                     
+
+go_heatmap (translation_go, term_name =FALSE, term_category = TRUE, parent_term = TRUE)
+
+
+``` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
