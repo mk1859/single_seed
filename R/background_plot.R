@@ -2,6 +2,7 @@
 background_plot <- function(matrix, order, background) {
   require (cowplot)
   require (ggplot2)
+  require (ggthemes)
   
   # data frame with statistics per seed
   seed_attr <- data.frame(n_reads = colSums(matrix),                                    # number of reads
