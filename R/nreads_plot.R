@@ -5,6 +5,7 @@ nreads_plot <- function(matrix, order) {
   require (ggplot2)
   require (cowplot)
   require (patchwork)
+  require (ggthemes)
   
   # data frame with statistics per seed
   seed_attr <- data.frame(n_reads = colSums(matrix),                                    # number of reads
