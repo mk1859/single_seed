@@ -309,13 +309,13 @@ go_heatmap (translation_go, term_name =FALSE, term_category = TRUE, parent_term 
 <img src="https://github.com/mk1859/single_seed/blob/main/images/translation_heatmap.png" width=50% height=50%>
 
 Due to fluctuation of translation related genes we decided to plot expression of genes belonging to translation GO term on PCA map.
-Function allows to exclude treatament, an select column with treatemnts that will be plotted as violin plot in indicated order.
+Function allows to exclude treatament and select column with treatemnts that will be plotted as violin plot in indicated order.
 
 ``` R
 go_pca_map (seurat_timecourse, go_id = "GO:0006412", excluded = NULL, column = "timepoint",
             order =  c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
 ```
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/translation_pca.png" width=50% height=50%>
 
 
 
