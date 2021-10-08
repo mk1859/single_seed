@@ -317,9 +317,15 @@ go_pca_map (seurat_timecourse, go_id = "GO:0006412", excluded = NULL, column = "
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/translation_pca.png" width=50% height=50%>
 
+We also observed intresting set of enriched GO terms for genes downregulated upon transition from 1h to 1d time point.
 
+``` R
+dry_list <- list()
+dry_list$SD1d_down <- rownames (deg_timecourse$SD1h_SD1d [deg_timecourse$SD1h_SD1d$avg_log2FC < 0,])
 
+dry_go <- multiple_genelists (dry_list, background = rownames(filtered_timecourse), 
+                                   p_value = 0.05, rrvgo_threshold=0.99)
 
-
-
+go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
+```
 
