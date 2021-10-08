@@ -5,6 +5,8 @@
 signature_map <- function (seurat_obj, signature, excluded = NULL, order, column) {
   require (Seurat)
   require (ggplot2)
+  require (ggthemes)
+  require (viridis)
   
   # export data from Seurat object
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data) 
