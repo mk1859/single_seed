@@ -334,5 +334,6 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 ## Gene expression patterns
 
 We created custome function to plot normalized expression of gene on PCA plot with violin plot inset to show its expression in treatment.
-
-
+``` R
+gene_exp (seurat_timecourse, gene = "AT2G36270", order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+```
