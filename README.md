@@ -304,10 +304,8 @@ translation_go <- multiple_genelists (translation_list, background = rownames(fi
 # plotting heatmap of GO terms enrichment p-values, with GO id instead of GO term names with term ontology and parent GO terms indicated                                     
 
 go_heatmap (translation_go, term_name =FALSE, term_category = TRUE, parent_term = TRUE)
-
-
 ``` 
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/translation_heatmap.png" width=33% height=33%>
 
 
 
