@@ -10,7 +10,7 @@ signature_map <- function (seurat_obj, signature, excluded = NULL, order, column
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data) 
   
   # set order of treatments
-  plot$timepoint <- factor(plot$timepoint, levels = order)
+  plot [,eval(column)] <- factor(plot [,eval(column)], levels = order)
   
   # exclude some time points if necessary
   if (!is.null(excluded )){
