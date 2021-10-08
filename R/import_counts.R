@@ -11,3 +11,4 @@ import_counts <- function(directory, header = TRUE) {
   matrix <- list.cbind(matrix)
   return (matrix)
 }
+
