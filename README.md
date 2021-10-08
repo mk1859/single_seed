@@ -329,3 +329,10 @@ dry_go <- multiple_genelists (dry_list, background = rownames(filtered_timecours
 go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/dry_heatmap.png" width=33% height=33%>
+
+
+## Gene expression patterns
+
+We created custome function to plot normalized expression of gene on PCA plot with violin plot inset to show its expression in treatment.
+
+
