@@ -6,6 +6,7 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
   require (cowplot)
   require (ggplot2)
   require (ggthemes)
+  require (dplyr)
   
   if (single_condition == TRUE) {
     plot <- res_file [order(-log10(res_file$value)),]
