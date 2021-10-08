@@ -1,6 +1,8 @@
 # function to create histograms, takes correlation table, order of time points and treshold of correlation as input
 corr_hist <- function(corr_table, order, treshold = 0.3) {
   require (reshape2)
+  require (ggthemes)
+  require (ggplot2)
   
   table_long <- melt (corr_table)                            # long form of table
   table_long$Var2 <- factor(table_long$Var2, levels = order) # correct order
