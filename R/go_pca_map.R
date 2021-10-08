@@ -25,7 +25,7 @@ go_pca_map <-  function (seurat_obj, go_id, excluded = NULL, order, column) {
   seurat_obj <- AddModuleScore(seurat_obj, features = list(go), name = "go_term")
   
   # plot signature
-  g <- signature_map (seurat_obj, signature = "go_term1", excluded = NULL, order = order , column = column) +
+  g <- signature_map (seurat_obj, signature = "go_term1", excluded = NULL, order = order , column = column)
 
   return (g)
 }
