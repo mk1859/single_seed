@@ -3,6 +3,7 @@
 pca_continuous <- function(seurat_obj, column, excluded = NULL) {
   require (Seurat)
   require (ggplot2)
+  require (viridis)
   
   # export data from Seurat object
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data) 
