@@ -367,6 +367,15 @@ cluster_1 cluster_2 cluster_3 cluster_4 cluster_5
       266       123        74        36        13
 ```
 
+We noticed that cluster_1 is enriched in translation-related GO terms
+``` R
+cluster1_go <- go_res (clusters_timepoint$cluster_1, background = rownames(filtered_timecourse), 
+                   p_value = 0.05, category = "BP", rrvgo_threshold=0.8)
+
+go_bubble (cluster1_go)
+```
+
+
 dog1 experiment
 ``` R
 clusters_dog1 <- coexpressed (seurat_dog1, threshold = 0.6, n_genes = 10)
@@ -377,4 +386,48 @@ lengths (clusters_dog1)
 cluster_1 cluster_2 cluster_3 cluster_4 cluster_5 
       385       154        39        27        21
 ```
+
+Identified co-expressed gene groups were used to create signatures that were plotted on PCA maps.
+
+Time-course experiment
+``` R
+seurat_timecourse <- AddModuleScore(seurat_timecourse, features = clusters_timepoint, name = "cluster_")
+
+signature_map (seurat_timecourse, signature = "cluster_1", 
+               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+
+signature_map (seurat_timecourse, signature = "cluster_2", 
+               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+
+signature_map (seurat_timecourse, signature = "cluster_3", 
+               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+
+signature_map (seurat_timecourse, signature = "cluster_4", 
+               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+
+signature_map (seurat_timecourse, signature = "cluster_5", 
+               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+```
+
+dog1 experiment
+``` R
+seurat_dog1 <- AddModuleScore(seurat_dog1, features = clusters_timepoint, name = "old_")
+
+seurat_dog1 <- AddModuleScore(seurat_dog1, features = clusters_dog1, name = "new_")
+
+signature_map (seurat_dog1, signature = "new_1", 
+               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+
+signature_map (seurat_dog1, signature = "new_2", 
+               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+
+signature_map (seurat_dog1, signature = "old_2", 
+               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+```
+
+We look for gene overlaps between identified groups.
+
+We finally plotted levels of two signatures using custom function.
+
+
 
