@@ -425,9 +425,31 @@ signature_map (seurat_dog1, signature = "old_2",
                order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
 ```
 
-We look for gene overlaps between identified groups.
+We look for gene overlaps between identified groups in two expriments using Venn diagrams.
+``` R
+# plotting Venn diagrams
+plot <- list(clusters_timepoint [[1]], clusters_dog1 [[1]])
+names(plot) <- c("time course cluster 1","dog1 cluster 1")
+plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF"))
+
+plot <- list(clusters_timepoint [[2]], clusters_dog1 [[2]])
+names(plot) <- c("time course cluster 2","dog1 cluster 2")
+plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF"))
+```
+
 
 We finally plotted levels of two signatures using custom function.
 
+Time-course experiment
+``` R
+sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", exclude= "SD7dPS",
+            order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"),
+            column = "timepoint")
+```
 
-
+dog1 experiment
+``` R
+sig_vs_sig (seurat_dog1, "new_1", "new_2",
+            order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"),
+            column = "timepoint")
+```
