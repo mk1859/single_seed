@@ -1,5 +1,5 @@
 # function to filter genes for each treatment to be above some expression treshold
-# it outputs list which elements are gene name vectors
+# it outputs list which elements are filtered matrices of read counts
 
 select_genes <- function (matrix, treatments, avg_reads = 1) {
   
