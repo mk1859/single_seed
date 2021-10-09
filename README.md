@@ -351,4 +351,16 @@ go_bubble (hvg_go)
 ```
 
 
-We also identified co-expressed gene groups using custome function.
+We also identified co-expressed gene groups using custome function. It calculates pairwise gene expression correlations and filters them. Next creates graph object, looks for highly connected groups in it and output groups with gene number above set treshold.
+
+Time-course experiment
+``` R
+seurat_timecourse@active.ident <- as.factor(seurat_timecourse$timepoint)
+
+clusters_timepoint <- coexpressed (subset(seurat_timecourse, idents = "SD7dPS", invert = TRUE), threshold = 0.5, n_genes = 10)
+```
+
+dog1 experiment
+``` R
+clusters_dog1 <- coexpressed (seurat_dog1, threshold = 0.6, n_genes = 10)
+```
