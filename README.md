@@ -453,3 +453,19 @@ sig_vs_sig (seurat_dog1, "new_1", "new_2",
             order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"),
             column = "timepoint")
 ```
+
+
+## Gene expression variability
+
+We looked for gene expression variability in each of time points of our time-course experiment.
+
+First we create Seourat object for each of time points. To avoid including lowly expressed genes we filtered them for each time point.
+
+
+calculated varience of top variable genes in each time point.
+
+
+
+
+
+
