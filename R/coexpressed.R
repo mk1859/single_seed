@@ -6,7 +6,7 @@
 # finally gene groups are filttred to consist of some minimal number of genes
 
 coexpressed <- function (seurat_obj, 
-                          iters=1e8              # number of iterations to calculate correlation
+                          iters=1e8,             # number of iterations to calculate correlation
                           threshold,             # filtering significant correlation
                           sat=1,                 # paramter for highlyConnSG
                           ldv=c(80,40,20,10),    # paramter for highlyConnSG
