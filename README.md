@@ -334,13 +334,21 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 
 ## Gene expression patterns
 
-We created custome function to plot normalized expression of gene on PCA plot with violin plot inset to show its expression in treatment.
+We created custome function to plot normalized expression of gene on PCA plot with violin plot inset to show its expression in treatments.
 ``` R
 gene_exp (seurat_timecourse, gene = "AT2G36270", order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/abi5_plot.png" width=50% height=50%>
 
 We identified 500 most varaibly expressed genes in time-course experiment and looked for GO terms enriched among them in BP ontology.
+``` R
+hvg_timecourse <- hvg (seurat_timecourse, top = 500)
+
+hvg_go <- go_res (hvg_timecourse$gene, background = rownames(filtered_timecourse), 
+                  p_value = 0.05, category = "BP", rrvgo_threshold=0.8)
+
+go_bubble (hvg_go)
+```
 
 
 We also identified co-expressed gene groups using custome function.
