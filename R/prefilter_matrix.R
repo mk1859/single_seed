@@ -1,4 +1,4 @@
-# function to prefilter genes and seeds
+# function to prefilter genes and seeds, uses Araport data frame with gene type information
 
 prefilter_matrix <- function(matrix, mean_exp, n_reads) {
   
