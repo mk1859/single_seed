@@ -52,6 +52,8 @@ data_dog1 <- import_counts ("/matrix/dog1/", header = TRUE)
 Data for *dog1-4* and Col-0 seed pool experiment.
 ``` R
 data_dry_dog1 <- import_counts ("/matrix/dog1_htseq/", header = FALSE)
+colnames (data_dry_dog1) <- gsub( ".txt","", list.files("/home/rstudio/matrix/dog1_htseq/"))
+data_dry_dog1 <- data_dry_dog1[-grep ("__", rownames (data_dry_dog1)),]
 ```
 
 Our library preparation protocol is design to detect mRNAs. To filter out non-protein coding genes we need reference file with information about gene types.
@@ -591,10 +593,129 @@ Finally, identification of groups of co-expressed genes in time point may point 
 ``` R
 timepoints_clusters <- lapply (timepoint_seurats, function (x) coexpressed (x, threshold =0.5, n_genes = 10))
 
+# number of genes in co-expressed groups
+number_coexp <- lapply (timepoints_clusters, lengths )
 
+# set 0 for empty lists
+number_coexp [lengths(number_coexp) == 0] <- 0                                  
 
+# convert each list to data frame
+number_coexp <- lapply (number_coexp, function (x) {                            
+                                        as.data.frame(x) %>%
+                                        mutate (., cluster = rownames(.))
+                                        })
 
+# join data frames
+number_coexp <- rbindlist (number_coexp, idcol = "timepoint")                   
+number_coexp$timepoint <- factor(number_coexp$timepoint, levels = timepoints) 
 
-
-
+ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
+                geom_bar(stat='identity') +
+                theme_classic() +
+                scale_fill_tableau("Miller Stone") +
+                ylab ("genes")
 ```
+
+
+## dog1-4 vs Col-0 dry seed pool DEGs
+
+We sequenced mRNAs isolated from pools of dry seeds to eluciadate role of DOG1 in establishment of gene expression patterns.
+We identified DEGsusing DESeq2 (REF).
+``` R
+# metadata
+col_data <- data.frame (library = colnames(data_dry_dog1),
+                        genotype = as.factor(substr(colnames(data_dry_dog1), 1, 4)),
+                        replica = substr(colnames(data_dry_dog1), 7, 7))
+
+# finding DEGs with DESeq2
+dds <- DESeqDataSetFromMatrix(countData = data_dry_dog1, colData = col_data, design = ~ genotype) %>%
+       DESeq(.)
+
+deg_dry_dog1 <- as.data.frame(results(dds, alpha = 0.05, contrast= c("genotype","dog1","Col0")))
+
+# creating Volcano plot
+ggplot(deg_dry_dog1 , aes(y=-log10(padj), x= log2FoldChange, color = padj < 0.05 , alpha = padj < 0.05)) +
+  geom_point(size = 1) + 
+  scale_color_tableau() +
+  theme_classic() +
+  scale_alpha_ordinal(range = c(0.1, 1))
+```
+
+We looked for ovrlaps of identified DEGS:
+``` R
+affected_dog1 <- rownames(deg_dry_dog1[which(deg_dry_dog1$padj< 0.05),])
+
+# with main co-expressed gene groups of time-course experiment
+plot <- list(clusters_timepoint [[1]], clusters_timepoint [[2]], affected_dog1)
+names(plot) <- c("time course cluster 1","time course cluster 2", "dry seeds affected")
+plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF", "#868686FF"))
+
+# with single seed DEGs of dog1 experiment
+plot <- list(rownames(deg_dog1$SD_Col0_3d_SD_dog1_3d), 
+             rownames(deg_dog1$SD_Col0_7d24h_SD_dog1_7d24h), affected_dog1)
+names(plot) <- c("dog1 3d","dog1 7d24h", "dry seeds affected")
+plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF", "#868686FF"))
+```
+
+We identified GO terms enriched among genes with down- and upregulated expression.
+``` R
+# find enriched GO terms
+up_genes <- rownames (deg_dry_dog1[which(deg_dry_dog1$padj< 0.05 & deg_dry_dog1$log2FoldChange > 0),])
+dw_genes <- rownames (deg_dry_dog1[which(deg_dry_dog1$padj< 0.05 & deg_dry_dog1$log2FoldChange < 0),])
+background <- rownames (deg_dry_dog1[which(deg_dry_dog1$baseMean > 1),])
+
+up_genes <- gost(query = up_genes, organism = "athaliana", 
+            custom_bg = background, user_threshold = p_value,
+            sources = "GO")$result
+
+dw_genes <- gost(query = dw_genes, organism = "athaliana", 
+            custom_bg = background, user_threshold = p_value,
+            sources = "GO")$result
+
+# create data frame
+affected <- list(up= up_genes, dw= dw_genes)
+affected <- rbindlist(affected, idcol = "change")
+
+# sort data frame
+affected <- affected [order(affected$p_value, decreasing = TRUE),]
+lev_order <- as.factor(affected$term_name [!duplicated(affected$term_name)])
+affected$term_name <- factor(affected$term_name,levels = lev_order)
+
+# plot for enrichment
+g1 <- ggplot(affected, aes(1, term_name)) + 
+         geom_tile(aes(fill = -log10(p_value))) + 
+         scale_fill_gradientn(colors =c("white","darkred"), limits= c( 0, -log10(min(affected$p_value))))+
+         theme_classic() +
+         facet_grid(vars(change), scales = "free", space = "free_y") +
+         theme(axis.line.x=element_blank(),
+               axis.text.x=element_blank(),
+               axis.ticks.x=element_blank(),
+               axis.title.x=element_blank()) 
+
+# plot for type of ontologies
+g2 <- ggplot(affected, aes(1, term_name)) + 
+         geom_tile(aes(fill = source)) + 
+         theme_classic() +
+         facet_grid(vars(change), scales = "free", space = "free_y") +
+         theme(axis.line=element_blank(),
+               axis.text.x=element_blank(),
+               axis.text.y=element_blank(),
+               axis.ticks=element_blank(),
+               axis.title.x=element_blank(),
+               axis.title.y=element_blank()) 
+ 
+# combine plots
+plot_grid(g1, g2, nrow = 1, align = "h", 
+               rel_widths = c(2, 0.5))
+```
+
+Finally we crated signature of *dog1-4* affected genes using Vision and overlaid it on time-course experiment PCA map.
+
+``` R
+# crate signature 
+deg_dry_dog1 <- as.data.frame(deg_dry_dog1) %>% filter (., padj < 0.05) 
+dog1_sign <-  sign(deg_dry_dog1$log2FoldChange)
+dog1_sign <- setNames (dog1_sign, rownames(deg_dry_dog1))
+dog1_sign <- createGeneSignature (name = "dog1mut_sign", sigData = dog1_sign)
+
+
