@@ -33,7 +33,7 @@ library (scales)
 On GEO we deposited results of three different experiments. 
 1) single seed RNA-seq during the time course of secondary dormancy induction. There were 6 time points (plus control treatment for one of them) each consisting of 3 libraries. We provide a matrix of read counts for each library in which rows are genes and columns are one of 32 seeds used for library preparation.
 
-2) single seed RNA-seq for *dog1-4* and Col-0 seeds in two time points of secondary dormancy induction. Again, each of the four treatments (genotype + time point) consist of 3 libraries and count matrices have the same structure as above.
+2) single seed RNA-seq for *dog1-4* mutant and Col-0 in two time points of secondary dormancy induction. Each of the four treatments (genotype + time point) consist of 3 libraries and count matrices have the same structure as above.
 
 3) RNA-seq results for the analysis of *dog1-4* and Col-0 dry seed pools (3 biological replicas). Here we provide read counts as separate files for each of the replicas. 
 
@@ -56,7 +56,7 @@ colnames (data_dry_dog1) <- gsub( ".txt","", list.files("/home/rstudio/matrix/do
 data_dry_dog1 <- data_dry_dog1[-grep ("__", rownames (data_dry_dog1)),]
 ```
 
-Our library preparation protocol is designed to detect mRNAs. To filter out non-protein-coding genes we needed a reference file with information about gene types.
+Our library preparation protocol was designed to detect mRNAs. To filter out non-protein-coding genes we needed a reference file with information about gene types.
 
 ``` R
 Araport <- read.csv ("Araport.txt", sep = "\t", header = TRUE)
@@ -75,10 +75,10 @@ head (Araport)
 
 ## Pre-filtering single seed data
 
-Similarly to single-cell experiments, our count data is quite sparse. We need to clean it by:
-1) removal of non-protein-coding genes
-2) removal of genes encoded in organelles
-3) removal of summary lines at last rows of the count matrix
+Similarly to single-cell experiments, our count data is sparse. We needed to clean it by:
+1) removing of non-protein-coding genes
+2) removing of genes encoded in organelles
+3) removing of summary lines at last rows of the count matrix
 4) filtering out genes with a low count number
 5) filtering seeds with not enough reads
 
@@ -102,27 +102,29 @@ dim (filtered_dog1) # genes / seeds remaining
 [1] 10989   382
 ```
 
-To plot number of sequenced reads and identified genes per seed in matrix, we created function that require also defined order of treatments as input.
+We wrote a function to plot the number of sequenced reads and identified genes per seed. We wanted to show treatments in the specified order.
 
 time-course experiment
 ``` R
-nreads_plot (filtered_timecourse, order= c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
+timepoints <- c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS")
+
+nreads_plot (filtered_timecourse, order= timepoints)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/nreads_timecourse.png" width=50% height=50%>
 
 
 dog1 experiment
 ``` R
-nreads_plot (filtered_dog1, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"))
+treatments <- c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h")
+
+nreads_plot (filtered_dog1, order = treatments)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/nreads_dog1.png" width=50% height=50%>
 
-## Filter seeds for number of background reads
+## Filter seeds for a number of background reads
 
-As it is visible above our libraries differ in number of identified genic reads. One source of that may be different quality of libraries.
-To estimate their quality we decied to count fraction of off-target reads (not in protein coding genes) for each seed by using created function.
-
-Function uses raw and pre-filtered matices as input.
+As visible on the plots above, our libraries vary in the number of identified genic reads. One source of this may be the different quality of sequenced libraries reflected by the ratio of target and off-target reads.
+We counted the fraction of off-target reads (not in protein-coding genes) for each seed with the background_reads function which uses raw and pre-filtered matrices as input.
 
 ``` R
 background_timecourse <- background_reads (data_timecourse, filtered_timecourse)
@@ -130,19 +132,17 @@ background_timecourse <- background_reads (data_timecourse, filtered_timecourse)
 background_dog1 <- background_reads (data_dog1, filtered_dog1)
 ```
 
-Then we made plots for number of sequenced reads and background level. Again we created custome function for that.
+Then, we made plots for the number of target reads and fraction of background reads with the background_plot function.
 
 time-course experiment
 ``` R
-background_plot (filtered_timecourse, order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), 
-                 background = background_timecourse)
+background_plot (filtered_timecourse, order = timepoints, background = background_timecourse)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/background_timecourse.png" width=50% height=50%>
 
-dog1 experiment
+dog1-4 experiment
 ``` R
-background_plot (filtered_dog1, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), 
-                 background = background_dog1)
+background_plot (filtered_dog1, order = treatments, background = background_dog1)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/background_dog1.png" width=50% height=50%>
 
