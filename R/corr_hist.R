@@ -1,5 +1,5 @@
 # function to create histograms, takes correlation table, order of time points and treshold of correlation as input
-corr_hist <- function(corr_table, order, treshold = 0.3) {
+corr_hist <- function(corr_table, order, threshold = 0.3) {
   require (reshape2)
   require (ggthemes)
   require (ggplot2)
@@ -16,7 +16,7 @@ g <- ggplot(table_long, aes(x = value, color = Var2)) +
       facet_wrap(vars(Var2), nrow = 2) +
       theme(strip.background = element_blank(),
             legend.position = "none") +
-      geom_vline(aes(xintercept= treshold ), color="red", size=1)
+      geom_vline(aes(xintercept= threshold ), color="red", size=1)
 
   return (g)
 }
