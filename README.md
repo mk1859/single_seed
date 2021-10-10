@@ -712,10 +712,17 @@ plot_grid(g1, g2, nrow = 1, align = "h",
 Finally we crated signature of *dog1-4* affected genes using Vision and overlaid it on time-course experiment PCA map.
 
 ``` R
-# crate signature 
+# create signature 
 deg_dry_dog1 <- as.data.frame(deg_dry_dog1) %>% filter (., padj < 0.05) 
 dog1_sign <-  sign(deg_dry_dog1$log2FoldChange)
 dog1_sign <- setNames (dog1_sign, rownames(deg_dry_dog1))
 dog1_sign <- createGeneSignature (name = "dog1mut_sign", sigData = dog1_sign)
 
+# create Vision object
+vis <- Vision(seurat_timecourse, signatures = list(dog1_sign), meta = seurat_timecourse@meta.data, assay = "SCT")
+vis <- analyze(vis)
 
+# create plot
+seurat_timecourse@meta.data$dog1_4 <- vis@SigScores
+signature_map (seurat_timecourse, signature = "dog1_4", order = timepoints, column = "timepoint")
+```
