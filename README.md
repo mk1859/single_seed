@@ -26,6 +26,7 @@ library (org.At.tair.db)
 library (biomaRt)
 library (GO.db)
 library (scales)
+library (matrixStats)
 ```
 
 ## Import the data
@@ -156,38 +157,37 @@ correlation_timecourse <- correlation_table (filtered_timecourse, background_tim
 correlation_dog1 <- correlation_table (filtered_dog1, background_dog1)
 ```
 
-We created histograms to show fraction of genes showing correlation to background reads above treshold of 0.3 using created function. 
+We created histograms to show the fraction of genes with correlation to background reads above a threshold of 0.3. 
 
 time-course experiment
 ``` R
-corr_hist (correlation_timecourse, treshold = 0.3, order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS", "all"))
+corr_hist (correlation_timecourse, threshold = 0.3, order = timepoints)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_timepoint.png" width=50% height=50%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
-corr_hist (correlation_dog1, treshold = 0.3, order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h", "all"))
+corr_hist (correlation_dog1, threshold = 0.3, order = treatments)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_dog1.png" width=50% height=50%>
 
-As genes can be correlated to the background in severla treatments we created a plot showing how many genes were found correlated.
+Some genes could be correlated to the background fraction in several treatments while others only if all seeds were considered. We created plots showing how many times each gene was found significantly correlated.
 
 time-course experiment
 ``` R
-corr_number (correlation_timecourse, treshold = 0.3)
+corr_number (correlation_timecourse, threshold = 0.3)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/area_timecourse.png" width=10% height=10%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
-corr_number (correlation_dog1, treshold = 0.3)
+corr_number (correlation_dog1, threshold = 0.3)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/area_dog1.png" width=10% height=10%>
 
-Fianally we remove from our pre-filtered matrices genes showing read count correlation to background reads higher than 0.3 in any treatment or when all seeds considered.
+From pre-filtered matrices, we removed genes showing read count correlation to background reads fraction higher than 0.3 in any treatment or when all seeds were considered.
 
 ``` R
-library (matrixStats)
 filtered_timecourse <- filtered_timecourse [-which (rowMaxs (correlation_timecourse) > 0.3),]
 nrow (filtered_timecourse) # genes remaining
 ```
@@ -204,22 +204,20 @@ nrow (filtered_dog1) # genes remaining
 
 ## Seurat object
 
-We obtained final matrices of counts for both single seed experiments. Now we prepare Seurat object (REF) with sctransform normalization (REF).
-To do that we prepared wraper function that takes matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as varaible to regress.
+After we obtained filtered matrices of counts for both single seed experiments, we created Seurat objects (REF) with sctransform normalization (REF). To do this, we prepared a wrapper function that takes the count matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as a variable to regress.
 
-Time-course experiment. Here, due to high background content in some libraries we regressed fraction of background reads.
+Time-course experiment. Here, due to high background content in some libraries, we regressed the fraction of background reads.
 ``` R
 seurat_timecourse <- seurat_object (filtered_timecourse, background = background_timecourse)
 ```
 
-DOG1 experiment. Here, we did not regress fraction of background reads.
+*dog1-4* experiment. Here, we did not regress the fraction of background reads.
 ``` R
 seurat_dog1 <- seurat_object (filtered_dog1, background = background_dog1, include_background = FALSE)
 ```
 
-We calculated PCA during preparation of Seurat objects. Now we ploted it to show tratments and batches (libraries).
-To do this we prepared function exporting dimention reduction and metadata from Seurat object. 
-It is possible to chose color pallet from ggthemes and exclude some treatments from the plot.
+We calculated PCA during the preparation of Seurat objects. Now we plotted it to show treatments and batches (libraries) with the pca_discrete function.
+This function exports dimension reduction and metadata from the Seurat object. It is possible to choose color pallet from ggthemes and exclude some treatments from the plot.
 
 time-course experiment
 ``` R
@@ -229,7 +227,7 @@ pca_discrete (seurat_timecourse, type = "batch", tableu = "Tableau 20", excluded
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_timepoint_timecourse.png" width=40% height=40%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_timecourse.png" width=40% height=40%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
 pca_discrete (seurat_dog1, type = "timepoint", tableu = "Tableau 10")
 
