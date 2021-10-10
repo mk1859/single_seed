@@ -25,6 +25,7 @@ library (VISION)
 library (org.At.tair.db)
 library (biomaRt)
 library (GO.db)
+library (scales)
 ```
 
 ## Import the data
@@ -534,5 +535,66 @@ ggplot(plot, aes(x=PC_1, y= PC_2, color = seurat_clusters, group = timepoint)) +
   facet_wrap(vars(timepoint), scales = "free")
 ```
 
+We identified above two gene groups with largely antagonistic expression during time course. 
+We wanted to check if their expression pattern can distinguish seeds in each time point.
+AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input.
+To create such signature we used Vission package (REF).
+
+``` R
+# create gene expression signature for Vision
+germ_comp <-  c(rep (1, length (clusters_timepoint$cluster_1)), rep (-1, length (clusters_timepoint$cluster_2)))
+germ_comp <- setNames (germ_comp, c(clusters_timepoint$cluster_1,clusters_timepoint$cluster_2))
+germ_comp <- createGeneSignature(name = "germ_comp", sigData = germ_comp)
+
+# make Vision objects
+vis <- lapply (timepoint_seurats, function(x) {
+                  Vision(x, signatures = list(germ_comp), 
+                         meta = x@meta.data, assay = "SCT")  
+        })
+
+# analyze Vision objects
+vis <- lapply (vis, function(x) {
+                    analyze(x)  
+        })
+
+# make plot data frame, Vision signature were scaled to better illustrate gradients between seeds
+plot <- mapply (function (x,y) {
+                    cbind (as.data.frame (Embeddings(object = x, reduction = "pca"))  [,1:2], 
+                           x@meta.data[,c(4,9)], rescale(y@SigScores, to = c(-1, 1)))
+      }, timepoint_seurats, vis, SIMPLIFY = FALSE)
+
+plot <- rbindlist(plot)
+plot$treatment <- factor(gsub('.{0,3}$', '', plot$batch), levels = timepoints)
+
+# make plot of PCA maps
+ggplot(plot, aes(x=PC_1, y= PC_2, color = germ_comp, group = treatment)) +
+  geom_point (size = 3) + 
+  scale_color_viridis() +
+  theme_classic() +
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) +
+  facet_wrap(vars(treatment), nrow = 2, scales = "free")
+
+# make boxplots
+ggplot(plot, aes(x=seurat_clusters, y= germ_comp, color = seurat_clusters)) +
+  geom_boxplot () + 
+  scale_color_tableau() +
+  theme_classic ()  +
+  theme (legend.position = "none") +
+  facet_wrap(vars(treatment), nrow = 1)
+```
+
+Finally, identification of groups of co-expressed genes in time point may point to presence of coherent gene expression patterns among seeds.
+``` R
+timepoints_clusters <- lapply (timepoint_seurats, function (x) coexpressed (x, threshold =0.5, n_genes = 10))
 
 
+
+
+
+
+
+```
