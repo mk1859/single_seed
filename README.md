@@ -459,13 +459,80 @@ sig_vs_sig (seurat_dog1, "new_1", "new_2",
 
 We looked for gene expression variability in each of time points of our time-course experiment.
 
-First we create Seourat object for each of time points. To avoid including lowly expressed genes we filtered them for each time point.
+First, we create Seourat object for each of time points. To avoid including lowly expressed genes we filtered them for each time point separetly.
+``` R
+timepoints <- levels(as.factor(seurat_timecourse$timepoint)) [c(2,1,3:7)]
 
+selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg_reads = 1))
+timepoint_seurats <- list_seurat (selected_genes, background = background_timecourse)
+```
 
-calculated varience of top variable genes in each time point.
+To estimate gene expression variability in each time point we calculated expression varience of top 200 variable genes.
+``` R
+# custom function
+hvg_timepoints <- lapply (timepoint_seurats, function (x) hvg (x, top = 200)) 
 
+hvg_timepoints <- rbindlist(hvg_timepoints, idcol = "timepoint")
 
+# set order of time point
+hvg_timepoints$timepoint <- factor(hvg_timepoints$timepoint, levels = timepoints)
 
+# plot variance
+ggplot(hvg_timepoints, aes(x=timepoint, y= log10(var), color = timepoint)) +
+  geom_boxplot() +
+  theme_classic() + 
+  scale_color_tableau() +
+  ylab ("log10(variance)") +
+  theme(legend.position = "none")
+```
+
+Varience of genes do not say anything if gene expression variability is randome or create some patterns among seeds.
+To find how much seeds differ in each time point we divided them into sub-pools and performrd differential gene expression between them.
+``` R
+# Seurat function FindNeighbors
+timepoint_seurats <- lapply (timepoint_seurats, function (x) {
+                              FindNeighbors(object = x, dims = 1:10, verbose = FALSE)})
+
+# resolutions to obtain exacly two sub-pools were found earlier manually
+resolution <- c ("SD1h" = 0.7, "SD1d" = 0.6, "SD3d" = 0.8, "SD5d" = 0.8, "SD7d" = 0.85, 
+                 "SD7d24h" = 0.3, "SD7dPS" = 0.85)
+
+# finding seed clusters with Seurat function
+timepoint_seurats <- mapply (function (x, y) {
+                            FindClusters(object = x, verbose = FALSE, resolution = y)},
+                            timepoint_seurats, resolution)
+
+# finding DEGs with Seurat function
+degs_subpools_timepoints <- lapply (timepoint_seurats, function (x) {
+                                  FindMarkers(object = x, ident.1 = 0, ident.2 = 1, 
+                                              logfc.threshold = log2(1.5), 
+                                              test.use = "wilcox",only.pos =FALSE, 
+                                              assay = "SCT", slot ="data", verbose = FALSE) %>%
+                                  filter(.,p_val_adj < padj)}) 
+                           
+names(degs_subpools_timepoints) <- timepoints
+
+# plot for number of DEGs using custom function
+deg_plot (degs_subpools_timepoints, direction = FALSE, limits = c(0,500), by = 100)
+
+# plot for seed sub pools (export data from Seurat objects, combine them and add time point column)
+plot <- lapply (timepoint_seurats, function (x) { 
+                cbind (as.data.frame (Embeddings(object = x, reduction = "pca")) [,1:2], 
+                x@meta.data [,-8])}) %>% 
+        rbindlist (.)  %>% 
+        mutate (., timepoint = factor(gsub('.{0,3}$', '', batch), levels = timepoints))
+
+ggplot(plot, aes(x=PC_1, y= PC_2, color = seurat_clusters, group = timepoint)) +
+  geom_point (size = 3) + 
+  scale_color_tableau() +
+  theme_classic() +
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank()) +
+  facet_wrap(vars(timepoint), scales = "free")
+```
 
 
 
