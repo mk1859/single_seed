@@ -403,51 +403,46 @@ signature_map (seurat_timecourse, signature = "cluster_5",  rder = timepoints, c
 <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster1_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster2_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster3_pca.png" width=33% height=33%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster4_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster5_pca.png" width=33% height=33%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
 seurat_dog1 <- AddModuleScore(seurat_dog1, features = clusters_timepoint, name = "old_")
 
 seurat_dog1 <- AddModuleScore(seurat_dog1, features = clusters_dog1, name = "new_")
 
-signature_map (seurat_dog1, signature = "new_1", 
-               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+signature_map (seurat_dog1, signature = "new_1", order = treatments, column = "timepoint")
 
-signature_map (seurat_dog1, signature = "new_2", 
-               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+signature_map (seurat_dog1, signature = "new_2", order = treatments, column = "timepoint")
 
-signature_map (seurat_dog1, signature = "old_2", 
-               order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"), column = "timepoint")
+signature_map (seurat_dog1, signature = "old_2", order = treatments, column = "timepoint")
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/new1_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/new2_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/old2_pca.png" width=33% height=33%>
 
-We look for gene overlaps between identified groups in two expriments using Venn diagrams.
+We looked for gene overlaps between identified groups in two single seed experiments using Venn diagrams.
 ``` R
 # plotting Venn diagrams
 plot <- list(clusters_timepoint [[1]], clusters_dog1 [[1]])
-names(plot) <- c("time course cluster 1","dog1 cluster 1")
+names(plot) <- c("time course cluster 1","dog1-4 cluster 1")
 plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF"))
 
 plot <- list(clusters_timepoint [[2]], clusters_dog1 [[2]])
-names(plot) <- c("time course cluster 2","dog1 cluster 2")
+names(plot) <- c("time course cluster 2","dog1-4 cluster 2")
 plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF"))
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/cluster1_venn.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster2_venn.png" width=33% height=33%>
 
+We finally plotted levels of two signatures using the sig_vs_sig function.
 
-We finally plotted levels of two signatures using custom function.
-
-Time-course experiment
+time-course experiment
 ``` R
-sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", exclude= "SD7dPS",
-            order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"),
-            column = "timepoint")
+sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", exclude= "SD7dPS", order = timepoints, column = "timepoint")
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/timecourse_sign_venn.png" width=50% height=50%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
-sig_vs_sig (seurat_dog1, "new_1", "new_2",
-            order = c ("SD_Col0_3d","SD_dog1_3d","SD_Col0_7d24h","SD_dog1_7d24h"),
-            column = "timepoint")
+sig_vs_sig (seurat_dog1, "new_1", "new_2", order = treatments, column = "timepoint")
 ```
-
+<img src="https://github.com/mk1859/single_seed/blob/main/images/dog1_sign_venn.png" width=50% height=50%>
 
 ## Gene expression variability
 
