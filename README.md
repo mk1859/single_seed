@@ -652,11 +652,11 @@ dw_genes <- rownames (deg_dry_dog1[which(deg_dry_dog1$padj< 0.05 & deg_dry_dog1$
 background <- rownames (deg_dry_dog1[which(deg_dry_dog1$baseMean > 1),])
 
 up_genes <- gost(query = up_genes, organism = "athaliana", 
-            custom_bg = background, user_threshold = p_value,
+            custom_bg = background, user_threshold = 0.05,
             sources = "GO")$result
 
 dw_genes <- gost(query = dw_genes, organism = "athaliana", 
-            custom_bg = background, user_threshold = p_value,
+            custom_bg = background, user_threshold = 0.05,
             sources = "GO")$result
 
 # create data frame
