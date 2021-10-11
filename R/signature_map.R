@@ -1,6 +1,6 @@
-# function for signature plots with violin insets
-# signatures should be added earlier to Seurat object with AddModuleScore
-# it allows remove some of the treatments and set thier order
+# function for signature PCA plots with violin insets
+# signatures should be added earlier to the Seurat object with AddModuleScore
+# it allows to remove one of the treatments and set their order
 
 signature_map <- function (seurat_obj, signature, excluded = NULL, order, column) {
   require (Seurat)
@@ -8,13 +8,13 @@ signature_map <- function (seurat_obj, signature, excluded = NULL, order, column
   require (ggthemes)
   require (viridis)
   
-  # export data from Seurat object
+  # export data from the Seurat object
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data) 
   
   # set order of treatments
   plot [,eval(column)] <- factor(plot [,eval(column)], levels = order)
   
-  # exclude some time points if necessary
+  # exclude treatment if necessary
   if (!is.null(excluded )){
     plot <-  plot [-grep( excluded, rownames(plot)),]
   }
