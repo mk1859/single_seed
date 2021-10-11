@@ -446,19 +446,16 @@ sig_vs_sig (seurat_dog1, "new_1", "new_2", order = treatments, column = "timepoi
 
 ## Gene expression variability
 
-We looked for gene expression variability in each of time points of our time-course experiment.
+We looked for gene expression variability in each of the time points of the time-course experiment.
 
-First, we create Seourat object for each of time points. To avoid including lowly expressed genes we filtered them for each time point separetly.
+First, we created a Seurat object for each of the time points. To avoid including lowly expressed genes, we filtered them for each time point separately.
 ``` R
-timepoints <- levels(as.factor(seurat_timecourse$timepoint)) [c(2,1,3:7)]
-
 selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg_reads = 1))
 timepoint_seurats <- list_seurat (selected_genes, background = background_timecourse)
 ```
 
-To estimate gene expression variability in each time point we calculated expression varience of top 200 variable genes.
+To estimate gene expression variability in each time point we calculated the expression variance of the top 200 variable genes.
 ``` R
-# custom function
 hvg_timepoints <- lapply (timepoint_seurats, function (x) hvg (x, top = 200)) 
 
 hvg_timepoints <- rbindlist(hvg_timepoints, idcol = "timepoint")
@@ -474,15 +471,16 @@ ggplot(hvg_timepoints, aes(x=timepoint, y= log10(var), color = timepoint)) +
   ylab ("log10(variance)") +
   theme(legend.position = "none")
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_boxplot.png" width=50% height=50%>
 
-Varience of genes do not say anything if gene expression variability is randome or create some patterns among seeds.
-To find how much seeds differ in each time point we divided them into sub-pools and performrd differential gene expression between them.
+The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
+To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
 ``` R
 # Seurat function FindNeighbors
 timepoint_seurats <- lapply (timepoint_seurats, function (x) {
                               FindNeighbors(object = x, dims = 1:10, verbose = FALSE)})
 
-# resolutions to obtain exacly two sub-pools were found earlier manually
+# resolutions to obtain exactly two sub-pools were found earlier manually
 resolution <- c ("SD1h" = 0.7, "SD1d" = 0.6, "SD3d" = 0.8, "SD5d" = 0.8, "SD7d" = 0.85, 
                  "SD7d24h" = 0.3, "SD7dPS" = 0.85)
 
@@ -497,14 +495,14 @@ degs_subpools_timepoints <- lapply (timepoint_seurats, function (x) {
                                               logfc.threshold = log2(1.5), 
                                               test.use = "wilcox",only.pos =FALSE, 
                                               assay = "SCT", slot ="data", verbose = FALSE) %>%
-                                  filter(.,p_val_adj < padj)}) 
+                                  filter(.,p_val_adj < 0.05)}) 
                            
 names(degs_subpools_timepoints) <- timepoints
 
-# plot for number of DEGs using custom function
+# plot for number of DEGs
 deg_plot (degs_subpools_timepoints, direction = FALSE, limits = c(0,500), by = 100)
 
-# plot for seed sub pools (export data from Seurat objects, combine them and add time point column)
+# plot for seed sub-pools (export data from Seurat objects, combine them and add time point column)
 plot <- lapply (timepoint_seurats, function (x) { 
                 cbind (as.data.frame (Embeddings(object = x, reduction = "pca")) [,1:2], 
                 x@meta.data [,-8])}) %>% 
@@ -522,11 +520,10 @@ ggplot(plot, aes(x=PC_1, y= PC_2, color = seurat_clusters, group = timepoint)) +
         axis.ticks = element_blank()) +
   facet_wrap(vars(timepoint), scales = "free")
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/clusters_each.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/degs_each_timepoint.png" width=50% height=50%>
 
-We identified above two gene groups with largely antagonistic expression during time course. 
-We wanted to check if their expression pattern can distinguish seeds in each time point.
-AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input.
-To create such signature we used Vission package (REF).
+We identified cluster_1 and cluster_2 gene groups with largely antagonistic expression during the time course. We wanted to check if their expression pattern can distinguish seeds in each time point. AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input. To create such signature we the used Vision package (REF).
 
 ``` R
 # create gene expression signature for Vision
@@ -545,7 +542,7 @@ vis <- lapply (vis, function(x) {
                     analyze(x)  
         })
 
-# make plot data frame, Vision signature were scaled to better illustrate gradients between seeds
+# make plot data frame, Vision signatures were scaled to better illustrate gradients between seeds
 plot <- mapply (function (x,y) {
                     cbind (as.data.frame (Embeddings(object = x, reduction = "pca"))  [,1:2], 
                            x@meta.data[,c(4,9)], rescale(y@SigScores, to = c(-1, 1)))
@@ -574,6 +571,8 @@ ggplot(plot, aes(x=seurat_clusters, y= germ_comp, color = seurat_clusters)) +
   theme (legend.position = "none") +
   facet_wrap(vars(treatment), nrow = 1)
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/sign_pca.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/sign_boxplots.png" width=50% height=50%>
 
 Finally, identification of groups of co-expressed genes in time point may point to presence of coherent gene expression patterns among seeds.
 ``` R
