@@ -1,6 +1,6 @@
 # analysis of multiple gene lists for GO term enrichment
-# when selected category = "all" it wrapps multiple_category.R
-# when one of BP, CC or MF selected it wraps go_res.R
+# when selected category = "all" it wraps multiple_category
+# when one of BP, CC or MF was selected it wraps go_res
 
 multiple_genelists <- function(gene_lists, background, p_value = 0.05, category = "all", rrvgo_threshold=0.9) {
     require (gprofiler2)
@@ -27,11 +27,11 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
   # combine to data frame
   all_list <- Reduce(function(x, y, ...) merge(x, y, all = TRUE, by = "term_id",suffixes = names (gene_lists),...), all_list)
     
-  # data frame require cleaning if list was longer than 1
+  # data frame require cleaning if gene list was longer than 1
     
   if (length(gene_lists) > 1) {
   
-    # function for cleaning columns of data frame
+    # function to clean columns of data frame
     clean <- function (filt_frame,term) {
                  sel_column <- filt_frame [,grep(term, colnames(filt_frame))]
                  column_list <- as.list (sel_column)
@@ -39,7 +39,7 @@ multiple_genelists <- function(gene_lists, background, p_value = 0.05, category 
                  return (column_list)
                 }
     
-    # create new clean data frame
+    # create new data frame
     all_res <- data.frame (term_id = all_list$term_id,
                            term_name = clean(all_list, "term_name"),
                            category = clean(all_list, "source"),
