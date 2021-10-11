@@ -521,7 +521,7 @@ ggplot(plot, aes(x=PC_1, y= PC_2, color = seurat_clusters, group = timepoint)) +
   facet_wrap(vars(timepoint), scales = "free")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/clusters_each.png" width=50% height=50%>
-<img src="https://github.com/mk1859/single_seed/blob/main/images/degs_each_timepoint.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/degs_each_tiempoint.png" width=50% height=50%>
 
 We identified cluster_1 and cluster_2 gene groups with largely antagonistic expression during the time course. We wanted to check if their expression pattern can distinguish seeds in each time point. AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input. To create such signature we the used Vision package (REF).
 
