@@ -5,10 +5,10 @@ pca_continuous <- function(seurat_obj, column, excluded = NULL) {
   require (ggplot2)
   require (viridis)
   
-  # export data from Seurat object
+  # export data from the Seurat object
   plot <- cbind (as.data.frame (Embeddings(object = seurat_obj, reduction = "pca"))  [,1:2], seurat_obj@meta.data) 
   
-  # exclude some time points if necessary
+  # exclude treatment if necessary
   if (!is.null(excluded )){
     plot <-  plot [-grep( excluded, rownames(plot)),]
   }
