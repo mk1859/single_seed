@@ -1,4 +1,4 @@
-# function to create PCA plot with normalized gene expression and violin plot inset showing expression in indicated treatments
+# function to create PCA plot with normalized gene expression and violin plot inset showing gene expression in indicated treatments
 
 gene_exp <- function(seurat_obj, gene, order, column) {
   require (cowplot)
@@ -27,7 +27,7 @@ gene_exp <- function(seurat_obj, gene, order, column) {
               axis.ticks = element_blank(),
               axis.line = element_blank())
   
-  # violin plot for time points
+  # violin plot for the treatments
   g2 <- ggplot(gene_exp, aes(x=.data[[column]], y= .data[[gene]], fill = .data[[column]], color = .data[[column]])) +
           geom_violin () + 
           scale_fill_tableau() +
