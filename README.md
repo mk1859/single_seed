@@ -161,13 +161,13 @@ We created histograms to show the fraction of genes with correlation to backgrou
 
 time-course experiment
 ``` R
-corr_hist (correlation_timecourse, threshold = 0.3, order = timepoints)
+corr_hist (correlation_timecourse, threshold = 0.3, order = c(timepoints, "all"))
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_timepoint.png" width=50% height=50%>
 
 *dog1-4* experiment
 ``` R
-corr_hist (correlation_dog1, threshold = 0.3, order = treatments)
+corr_hist (correlation_dog1, threshold = 0.3, order = c(treatments, "all"))
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/histograms_dog1.png" width=50% height=50%>
 
