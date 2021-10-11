@@ -1,9 +1,9 @@
-# function to filter genes for each treatment to be above some expression treshold
-# it outputs list which elements are filtered matrices of read counts
+# function to filter genes for each treatment to be above some expression threshold
+# it outputs list which elements are filtered matrices of reads counts
 
 select_genes <- function (matrix, treatments, avg_reads = 1) {
   
-  # choose seeds
+  # choose treatment
   selected_seeds <- lapply (treatments, function (x) {
     which(gsub('.{0,6}$', '', colnames(matrix)) == x) })
     
