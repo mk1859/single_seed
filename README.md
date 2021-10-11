@@ -337,7 +337,7 @@ gene_exp (seurat_timecourse, gene = "AT2G36270", order = timepoints, column = "t
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/abi5_plot.png" width=50% height=50%>
 
-We identified 500 most varaibly expressed genes in time-course experiment and looked for GO terms enriched among them in BP ontology.
+We identified 500 most variably expressed genes in the time-course experiment and looked for GO terms enriched among them in BP ontology.
 ``` R
 hvg_timecourse <- hvg (seurat_timecourse, top = 500)
 
@@ -346,11 +346,11 @@ hvg_go <- go_res (hvg_timecourse$gene, background = rownames(filtered_timecourse
 
 go_bubble (hvg_go)
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_go.png" width=50% height=50%>
 
+We also identified co-expressed gene groups using the coexpressed function. It calculates pairwise gene expression correlations and filters them. Next, it creates a graph object, looks for highly connected groups in it and outputs groups with gene numbers above the set threshold.
 
-We also identified co-expressed gene groups using custome function. It calculates pairwise gene expression correlations and filters them. Next creates graph object, looks for highly connected groups in it and output groups with gene number above set treshold.
-
-Time-course experiment
+time-course experiment
 ``` R
 seurat_timecourse@active.ident <- as.factor(seurat_timecourse$timepoint)
 
@@ -371,9 +371,9 @@ cluster1_go <- go_res (clusters_timepoint$cluster_1, background = rownames(filte
 
 go_bubble (cluster1_go)
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/cluster1_go.png" width=50% height=50%>
 
-
-dog1 experiment
+*dog1-4* experiment
 ``` R
 clusters_dog1 <- coexpressed (seurat_dog1, threshold = 0.6, n_genes = 10)
 
