@@ -1,5 +1,5 @@
-# function to create heatmap of enriched GO terms for multiple or single element list
-# it allow to choose if term name or id will appear in the plot (term_name = TRUE/FALSE)
+# function to create a heatmap of enriched GO terms for multiple or single element list
+# it allows to choose if term name or id will appear in the plot (term_name = TRUE/FALSE)
 # and if parent GO terms and term ontology should be plotted
 
 go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_term = TRUE, single_condition = FALSE) {
@@ -8,11 +8,13 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
   require (ggthemes)
   require (data.table)
   
+  # single element list
   if (single_condition == TRUE) {
     plot <- res_file [order(-log10(res_file$value)),]
     plot$variable <- "x"
     
-  } else { # multiple lists
+  # multiple element list  
+  } else { 
   
   plot <- res_file [order(res_file$category, res_file$parent, -log10(res_file [,ncol(res_file)])),]
   order_go <- as.factor(plot$term_id)
@@ -21,7 +23,8 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
   
   }
   
-  if (term_name == TRUE) { # term name or term id on the plot
+  # term name or term id on the plot
+  if (term_name == TRUE) {
     g1 <- ggplot(plot, aes(variable, term_name)) + 
             geom_tile(aes(fill = -log10(value))) + 
             scale_fill_gradient2(low = "midnightblue", 
@@ -62,7 +65,7 @@ go_heatmap <- function(res_file, term_name =FALSE, term_category = TRUE, parent_
                   axis.title.y=element_blank()) +
             labs (fill = "parent")
 
-   # create multipanel plot
+  # create a multipanel plot
   if (term_category == TRUE & parent_term == TRUE) {
     g <- plot_grid(g3, g2, g1, nrow = 1, align = "h", 
                rel_widths = c(0.75,0.5,1.5))
