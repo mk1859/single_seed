@@ -398,7 +398,7 @@ signature_map (seurat_timecourse, signature = "cluster_3", order = timepoints, c
 
 signature_map (seurat_timecourse, signature = "cluster_4", order = timepoints, column = "timepoint")
 
-signature_map (seurat_timecourse, signature = "cluster_5",  rder = timepoints, column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_5",  order = timepoints, column = "timepoint")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster1_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster2_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster3_pca.png" width=33% height=33%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster4_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster5_pca.png" width=33% height=33%>
