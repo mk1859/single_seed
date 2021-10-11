@@ -1,6 +1,6 @@
-# function to create plot showing number of changed genes in list of comparisons
-# direction = TRUE divides genes to upregulated and downregulated 
-# limits and by is passed to x axis 
+# function to create plot showing number of affected genes in list of comparisons
+# direction = TRUE divides genes into upregulated and downregulated 
+# limits and by parameters are passed to x-axis properties
 
 deg_plot <- function(deg_list, direction = TRUE, limits = c(-400,800), by = 200) {
   require(rlist)
