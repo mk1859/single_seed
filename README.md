@@ -574,7 +574,7 @@ ggplot(plot, aes(x=seurat_clusters, y= germ_comp, color = seurat_clusters)) +
 <img src="https://github.com/mk1859/single_seed/blob/main/images/sign_pca.png" width=50% height=50%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/sign_boxplots.png" width=50% height=50%>
 
-Finally, identification of groups of co-expressed genes in time point may point to presence of coherent gene expression patterns among seeds.
+Finally, identification of co-expressed genes groups in time point may point to the presence of coherent gene expression patterns among seeds.
 ``` R
 timepoints_clusters <- lapply (timepoint_seurats, function (x) coexpressed (x, threshold =0.5, n_genes = 10))
 
@@ -601,10 +601,10 @@ ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
                 ylab ("genes")
 ```
 
-## *dog1-4* vs Col-0 dry seed pool DEGs
+## *dog1-4* vs Col-0 seed pool DEGs
 
-We sequenced mRNAs isolated from pools of dry seeds to eluciadate role of DOG1 in establishment of gene expression patterns.
-We identified DEGsusing DESeq2 (REF).
+We sequenced mRNAs isolated from pools of dry seeds to elucidate the role of DOG1 in the establishment of gene expression patterns.
+We identified DEGs using DESeq2 (REF).
 ``` R
 # metadata
 col_data <- data.frame (library = colnames(data_dry_dog1),
@@ -617,7 +617,7 @@ dds <- DESeqDataSetFromMatrix(countData = data_dry_dog1, colData = col_data, des
 
 deg_dry_dog1 <- as.data.frame(results(dds, alpha = 0.05, contrast= c("genotype","dog1","Col0")))
 
-# creating Volcano plot
+# Volcano plot
 ggplot(deg_dry_dog1 , aes(y=-log10(padj), x= log2FoldChange, color = padj < 0.05 , alpha = padj < 0.05)) +
   geom_point(size = 1) + 
   scale_color_tableau() +
@@ -625,16 +625,16 @@ ggplot(deg_dry_dog1 , aes(y=-log10(padj), x= log2FoldChange, color = padj < 0.05
   scale_alpha_ordinal(range = c(0.1, 1))
 ```
 
-We looked for ovrlaps of identified DEGS:
+We looked for overlaps of identified DEGs:
 ``` R
 affected_dog1 <- rownames(deg_dry_dog1[which(deg_dry_dog1$padj< 0.05),])
 
-# with main co-expressed gene groups of time-course experiment
+# with main co-expressed gene groups of the time-course experiment
 plot <- list(clusters_timepoint [[1]], clusters_timepoint [[2]], affected_dog1)
 names(plot) <- c("time course cluster 1","time course cluster 2", "dry seeds affected")
 plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF", "#868686FF"))
 
-# with single seed DEGs of dog1 experiment
+# with single seed DEGs of the dog1-4 experiment
 plot <- list(rownames(deg_dog1$SD_Col0_3d_SD_dog1_3d), 
              rownames(deg_dog1$SD_Col0_7d24h_SD_dog1_7d24h), affected_dog1)
 names(plot) <- c("dog1 3d","dog1 7d24h", "dry seeds affected")
@@ -665,7 +665,7 @@ affected <- affected [order(affected$p_value, decreasing = TRUE),]
 lev_order <- as.factor(affected$term_name [!duplicated(affected$term_name)])
 affected$term_name <- factor(affected$term_name,levels = lev_order)
 
-# plot for enrichment
+# plot for enrichments
 g1 <- ggplot(affected, aes(1, term_name)) + 
          geom_tile(aes(fill = -log10(p_value))) + 
          scale_fill_gradientn(colors =c("white","darkred"), limits= c( 0, -log10(min(affected$p_value))))+
@@ -676,7 +676,7 @@ g1 <- ggplot(affected, aes(1, term_name)) +
                axis.ticks.x=element_blank(),
                axis.title.x=element_blank()) 
 
-# plot for type of ontologies
+# plot for types of ontologies
 g2 <- ggplot(affected, aes(1, term_name)) + 
          geom_tile(aes(fill = source)) + 
          theme_classic() +
