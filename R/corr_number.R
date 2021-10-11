@@ -1,27 +1,28 @@
-# function to create area plot showing number of genes showing correlation to the background reads
+# function to create an area plot showing the number of genes with correlation to the background reads
+
 corr_number <- function(corr_table, threshold = 0.3) {
   require (ggthemes)
   require (ggplot2)
   require (dplyr)
 
-  # count genes with treatments above threshold of correlation
+  # find genes with correlations above the threshold
   corr_sum <- apply (corr_table,2, function (x) ifelse (x > threshold , 1, 0) )
-  
-  # number of treatments
+                     
+  # number of treatments in which gene shows the correlation above the threshold
   cor_stat <- rowSums(corr_sum [,1:(ncol(corr_sum)-1)])
   
-  # number of genes for all seeds
+  # number of genes with correlation above threshold when correlation calculated for all seeds
   all_stat <- table (corr_sum [,ncol (corr_sum)] > 0 & cor_stat == 0) [2]
   names(all_stat) <- "all"
   
-  # create table for plotting
+  # create the table for plotting
   cor_stat <- as.data.frame(c (table (as.factor(cor_stat)), all_stat)) %>%
     mutate(., treatments = rownames(.), pos1 = 0, pos2 =0)
     
-  cor_stat [1,1] <- cor_stat [1,1] - all_stat # remove genes only in all seeds
+  cor_stat [1,1] <- cor_stat [1,1] - all_stat # remove genes present only in the "all seeds" category
   colnames (cor_stat) [1] <- "Freq"
   
-  # loop for settings borders of the areas on the plot, starting from 0 it sets borders according to the number of affected genes
+  # loop to set borders of the areas on the plot, starting from 0 it sets borders according to the number of affected genes
   a <- cor_stat$Freq [1]
   b <- 0
   for (i in 1:nrow(cor_stat)) {
