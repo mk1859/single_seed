@@ -83,7 +83,7 @@ Similarly to single-cell experiments, our count data is sparse. We needed to cle
 4) filtering out genes with a low count number
 5) filtering seeds with not enough reads
 
-To do that we created function prefilter_matrix and applied it to our single seed matrices.
+To do that we created function prefilter_matrix and applied it to our single seed matrices. By default it uses Araport data frame with columns described as above.
 We require the mean expression of a gene to be at least 1 read per seed for a gene to remain and at least 5,000 reads per seed for a seed to remain.
 
 ``` R
@@ -216,7 +216,7 @@ seurat_timecourse <- seurat_object (filtered_timecourse, background = background
 seurat_dog1 <- seurat_object (filtered_dog1, background = background_dog1, include_background = FALSE)
 ```
 
-We calculated PCA during the preparation of Seurat objects. Now we plotted it to show treatments and batches (libraries) with the pca_discrete function.
+We calculated PCA during the preparation of Seurat objects. Now, we plotted it to show treatments and batches (libraries) with the pca_discrete function.
 This function exports dimension reduction and metadata from the Seurat object. It is possible to choose color pallet from ggthemes and exclude some treatments from the plot.
 
 time-course experiment
@@ -235,8 +235,8 @@ pca_discrete (seurat_dog1, type = "batch", tableu = "Tableau 20")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_treatment_dog1.png" width=40% height=40%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_batch_dog1.png" width=40% height=40%>
 
-Some technical parameters like number of reads, number of identified genes and fraction of backround reads per seed may affect position of seeds on the map.
-To check continous values we crate another plotting function.
+Some technical parameters like number of reads, number of identified genes and fraction of background reads may affect the position of seeds on the PCA plot.
+To check continuous values on PCA plots we wrote another plotting function.
 
 time-course experiment
 ``` R
@@ -248,7 +248,7 @@ pca_continuous (seurat_timecourse, column = "background")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_reads_timecourse.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_genes_timecourse.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/pca_background_timecourse.png" width=33% height=33%>
 
-dog1 experiment
+*dog1-4* experiment
 ``` R
 pca_continuous (seurat_dog1, column = "log10_reads")
 
@@ -260,34 +260,34 @@ pca_continuous (seurat_dog1, column = "background")
 
 ## Differential gene expression
 
-To compare gene expression changes between two sets of conditions we created wrapper function to Seurat FindMarkers.
+To compare gene expression changes between two sets of conditions, we created a wrapper function to Seurat FindMarkers.
 
-For time-course experiment we compared sequential time points.
+For the time-course experiment, we compared sequential time points.
 ``` R
 deg_timecourse <- deg_list (seurat_timecourse, vector1 = c ("SD1h","SD1d","SD3d","SD5d","SD7d"), 
                            vector2 = c ("SD1d","SD3d","SD5d","SD7d","SD7d24h"), 
                            column = "timepoint", padj = 0.05, log2FC_threshold = 1)
 ```                           
 
-For dog1 experiment we compared mutant and wild type in two time points.
+For the *dog1-4* experiment, we compared mutant and wild type in two time points.
 ``` R
 deg_dog1 <- deg_list (seurat_dog1, vector1 = c ("SD_Col0_3d","SD_Col0_7d24h"), 
                            vector2 = c ("SD_dog1_3d","SD_dog1_7d24h"), 
                            column = "timepoint", padj = 0.05, log2FC_threshold = 1)
 ``` 
 
-We plotted number of DEGs with division for upregulated and downregulated genes using custom function.
-It takes parameters of the plot as input.
+We plotted the number of differentially expressed genes (DEG)s with the division for upregulated and downregulated genes using the deg_plot function.
+It takes the parameters of the plot as input.
 
 ``` R
 deg_plot (deg_timecourse, direction = TRUE, limits = c(-400,800), by = 200)
 ``` 
 <img src="https://github.com/mk1859/single_seed/blob/main/images/number_degs.png" width=50% height=50%>
 
-To analyze GO terms enriched among affected genes and plot them we created set of interdepended functions:
-go_res.R, multiple_category.R, multiple_genelists.R, go_heatmap.R, go_bubble.R and go_pca_map.R
+We analyzed GO terms enriched among affected genes and plotted them with a set of interdepended functions:
+go_res, multiple_category, multiple_genelists, go_heatmap, go_bubble and go_pca_map.
 
-We noticed that in three comparisons in time-course experiment genes involved in translation are significantly enriched.
+We noticed that in the time-course experiment, three comparisons are significantly enriched in genes involved in translation.
 
 ``` R
 translation_list <- list()
@@ -295,29 +295,28 @@ translation_list$SD1d_up <- rownames (deg_timecourse$SD1h_SD1d [deg_timecourse$S
 translation_list$SD3d_down <- rownames (deg_timecourse$SD1d_SD3d [deg_timecourse$SD1d_SD3d$avg_log2FC < 0,])
 translation_list$SD7d24h_up <- rownames (deg_timecourse$SD7d_SD7d24h [deg_timecourse$SD7d_SD7d24h$avg_log2FC > 0,])
 
-# function to create data frame with enriched go terms in lists of genes, 
+# function to create a data frame with enriched go terms for lists of genes 
 # using rrvgo package it also generalizes results by finding parent GO terms
 
 translation_go <- multiple_genelists (translation_list, background = rownames(filtered_timecourse), 
                                       p_value = 0.05, rrvgo_threshold=0.99)
                                       
-# plotting heatmap of GO terms enrichment p-values, with GO id instead of GO term names 
-# with term ontology and parent GO terms indicated                                     
+# plot heatmap of p-values for enriched GO terms, with GO id instead of GO term names 
+# with term ontology and parent GO terms indicated as neighbouring plots                                     
 
 go_heatmap (translation_go, term_name =FALSE, term_category = TRUE, parent_term = TRUE)
 ``` 
 <img src="https://github.com/mk1859/single_seed/blob/main/images/translation_heatmap.png" width=50% height=50%>
 
-Due to fluctuation of translation related genes we decided to plot expression of genes belonging to translation GO term on PCA map.
-Function allows to exclude treatament and select column with treatemnts that will be plotted as violin plot in indicated order.
+We decided to plot the expression of genes belonging to the translation GO term on the PCA map.
+The function allows selecting column with treatments and excluding one of them. Values of expression for treatments are plotted as violin plots in the indicated order.
 
 ``` R
-go_pca_map (seurat_timecourse, go_id = "GO:0006412", excluded = NULL, column = "timepoint",
-            order =  c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"))
+go_pca_map (seurat_timecourse, go_id = "GO:0006412", excluded = NULL, column = "timepoint", order =  timepoints)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/translation_pca.png" width=50% height=50%>
 
-We also observed intresting set of enriched GO terms for genes downregulated upon transition from 1h to 1d time point.
+We also observed an interesting set of enriched GO terms for genes downregulated upon transition from 1h to 1d time point.
 
 ``` R
 dry_list <- list()
@@ -330,12 +329,11 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/dry_heatmap.png" width=33% height=33%>
 
-
 ## Gene expression patterns
 
-We created custome function to plot normalized expression of gene on PCA plot with violin plot inset to show its expression in treatments.
+We created a function to plot normalized expression of a gene on PCA plot with violin plot inset to show its expression in treatments selected by the variable called column.
 ``` R
-gene_exp (seurat_timecourse, gene = "AT2G36270", order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+gene_exp (seurat_timecourse, gene = "AT2G36270", order = timepoints, column = "timepoint")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/abi5_plot.png" width=50% height=50%>
 
