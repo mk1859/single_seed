@@ -436,13 +436,13 @@ time-course experiment
 ``` R
 sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", exclude= "SD7dPS", order = timepoints, column = "timepoint")
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/timecourse_sign_venn.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/timecourse_sign.png" width=50% height=50%>
 
 *dog1-4* experiment
 ``` R
 sig_vs_sig (seurat_dog1, "new_1", "new_2", order = treatments, column = "timepoint")
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/dog1_sign_venn.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/dog1_sign.png" width=50% height=50%>
 
 ## Gene expression variability
 
