@@ -450,7 +450,7 @@ We looked for gene expression variability in each of the time points of the time
 
 First, we created a Seurat object for each of the time points. To avoid including lowly expressed genes, we filtered them for each time point separately.
 ``` R
-selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg_reads = 1))
+selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg_reads = 1)
 timepoint_seurats <- list_seurat (selected_genes, background = background_timecourse)
 ```
 
