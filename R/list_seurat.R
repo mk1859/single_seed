@@ -1,5 +1,5 @@
-# function for creating Seurat objects for list of treatments 
-# with batch removal and background regression duing sctransform normalization
+# function to create Seurat objects list for the list of treatments 
+# it includes batch removal and background regression during sctransform normalization
 
 list_seurat <- function (matrix_list, background) {
   require (Seurat)
@@ -10,7 +10,7 @@ list_seurat <- function (matrix_list, background) {
                             data.frame(batch = gsub('.{0,3}$', '', colnames(x)),
                             background = background [names(background) %in% colnames(x)] ) })
                             
-  # create list of Seurat objects
+  # create a list of Seurat objects
   timepoint_seurats <- mapply (function (x,y) {
                           CreateSeuratObject(counts = x, meta.data = y)},
                        matrix_list,timepoint_attr)
