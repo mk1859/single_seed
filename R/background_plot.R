@@ -1,19 +1,19 @@
-# function to create multipanel diagram for fraction of background reads, takes also order of treatments as input
+# function to create a multipanel diagram for the fraction of background reads, it takes the order of treatments as input
 background_plot <- function(matrix, order, background) {
   require (cowplot)
   require (ggplot2)
   require (ggthemes)
   
-  # data frame with statistics per seed
+  # metadata for seeds
   seed_attr <- data.frame(n_reads = colSums(matrix),                                    # number of reads
-                          background = background,                                      # fraction of background
+                          background = background,                                      # fraction of background reads
                           timepoint = as.factor(gsub('.{0,6}$', '', colnames(matrix)))) # extract information about treatment from seed name
                         
   
   # set order of treatments
   seed_attr$timepoint <- factor(seed_attr$timepoint, levels = order)
   
-  # plot for number of reads and fraction of background
+  # plot for number of reads and fraction of background reads
   g1 <- ggplot(seed_attr, aes(x=log10(n_reads), y=background, color = timepoint)) +
    geom_point(size = 1) + 
    scale_color_tableau() +
@@ -21,7 +21,7 @@ background_plot <- function(matrix, order, background) {
    geom_smooth(method='lm', se=FALSE) +
    theme(legend.position = "none")
   
-  # boxplot for fraction of background
+  # boxplot for fraction of background reads
   g2 <- ggplot(seed_attr, aes(x=timepoint, y=background, color = timepoint)) +
    geom_boxplot() + 
    scale_color_tableau() +
@@ -34,7 +34,7 @@ background_plot <- function(matrix, order, background) {
          axis.title.y=element_blank()) +
    theme(legend.position = "none")
 
-  # create multipanel plot
+  # create a multipanel plot
   g <- plot_grid(g1, g2, ncol = 2, align = "h", 
                rel_widths = c(2,0.8))
                
