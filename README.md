@@ -1,4 +1,4 @@
-Here we provide code for the preparation of figures for "Transcriptional heterogeneity of single seeds during the secondary dormancy induction".
+Here we provide code for the preparation of most of the figures for "Transcriptional heterogeneity of single seeds during the secondary dormancy induction".
 
 #### Load required R packages.
 
