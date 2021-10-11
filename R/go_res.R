@@ -1,5 +1,5 @@
-# enrichment of GO terms from single category with calculation of parent GO terms
-# requires vector of gene names, vector of background genes, category (BP, CC or MF) and thershold for finding of parent GO terms
+# enrichment of GO terms from a single ontology with identification of parent GO terms
+# it requires a vector of gene names, vector of background genes names, ontology (BP, CC or MF) and threshold for finding parent GO terms
 
 go_res <- function(genes, background, p_value = 0.05, category = "BP", rrvgo_threshold=0.8) {
     require (gprofiler2)
@@ -9,10 +9,10 @@ go_res <- function(genes, background, p_value = 0.05, category = "BP", rrvgo_thr
     # enrichment calculation
     res <- gost(query = genes, organism = "athaliana", custom_bg = background, user_threshold = p_value, sources = "GO")$result
     
-    # selection of GO term category
+    # selection of GO term ontology
     category_selected <- res [grep(category, res$source),]
     
-    # stop if no go terms at selected category
+    # stop if no go terms at selected ontology
     if (nrow(category_selected) == 0) {return (print("no GO term at category"))}
     
     else {
