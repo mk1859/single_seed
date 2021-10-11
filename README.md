@@ -625,7 +625,7 @@ ggplot(deg_dry_dog1 , aes(y=-log10(padj), x= log2FoldChange, color = padj < 0.05
   theme_classic() +
   scale_alpha_ordinal(range = c(0.1, 1))
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/volcano.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/volcano.png" width=33% height=33%>
 
 We looked for overlaps of identified DEGs:
 ``` R
@@ -642,7 +642,7 @@ plot <- list(rownames(deg_dog1$SD_Col0_3d_SD_dog1_3d),
 names(plot) <- c("dog1 3d","dog1 7d24h", "dry seeds affected")
 plot(euler(plot), quantities = TRUE, fill = c("#0073C2FF", "#EFC000FF", "#868686FF"))
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/clusters_dog1.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/ss_dog1_dog1.png" width=33% height=33%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/clusters_dog1.png" width=20% height=20%> <img src="https://github.com/mk1859/single_seed/blob/main/images/ss_dog1_dog1.png" width=20% height=20%>
 
 We identified GO terms enriched among genes with down- and upregulated expression.
 ``` R
