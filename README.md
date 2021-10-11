@@ -697,7 +697,7 @@ plot_grid(g1, g2, nrow = 1, align = "h",
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/degs_dog1_go.png" width=50% height=50%>
 
-Finally we crated signature of *dog1-4* affected genes using Vision and overlaid it on time-course experiment PCA map.
+Finally, we created the signature of *dog1-4* affected genes using Vision and overlaid it on the time-course experiment PCA map.
 
 ``` R
 # create signature 
@@ -713,4 +713,9 @@ vis <- analyze(vis)
 # create plot
 seurat_timecourse@meta.data$dog1_4 <- vis@SigScores
 signature_map (seurat_timecourse, signature = "dog1_4", order = timepoints, column = "timepoint")
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/dog1_4_sign.png" width=50% height=50%>
+
+``` R
+sessionInfo()
 ```
