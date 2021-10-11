@@ -1,5 +1,5 @@
-# function to create multipanel diagram, takes also order of treatments as input
-# require naming: treatment.library(01-99).batch(01-99)
+# function to create a multipanel diagram, it takes order of treatments as input
+# require seed naming: treatment.library(01-99).batch(01-99)
 
 nreads_plot <- function(matrix, order) {
   require (ggplot2)
