@@ -3,7 +3,7 @@
 # limits and by is passed to x axis 
 
 deg_plot <- function(deg_list, direction = TRUE, limits = c(-400,800), by = 200) {
-  require (rlist)
+  require(rlist)
   require (ggthemes)
   require (ggplot2)
   
@@ -35,9 +35,7 @@ deg_plot <- function(deg_list, direction = TRUE, limits = c(-400,800), by = 200)
       degs <- lapply (deg_list, function(x) {
                   nrow(x) })
     
-      names (degs) <- names (deg_list)
-      degs <- as.data.frame(degs)
-      degs$comparison = factor (rownames(degs), levels = rev(rownames(degs)))
+      degs <- data.frame(comparison = names(deg_list), degs = unlist(degs)) 
       
       g <- ggplot (degs, aes (x = comparison, y = degs, fill= comparison)) +
                 geom_bar(stat='identity') +
