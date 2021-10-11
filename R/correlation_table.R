@@ -1,22 +1,22 @@
-# function to calculate correlation of gene count to fraction of background reads
-# it takes matrix of counts, normalizes sequencing depth per seed using Seurat 
-# then it exptracts information about treatment from seed name 
-# finally calculates Pearson correlation to the fraction o background reads for seeds in each traetmant and for all seeds combine
+# function to calculate the correlation of gene's read count to the fraction of background reads
+# it takes a matrix of counts, normalizes sequencing depth per seed using Seurat 
+# then it extracts information about treatment from seed name 
+# finally calculates Pearson correlation to the fraction of background reads for seeds in each treatment and all seeds combined
 
 correlation_table <- function(matrix, background) {
   require (Seurat)
   
-  #input for normalization
-  seed_attr <- data.frame(background = background,                                       # fraction of background
+  # input for normalization
+  seed_attr <- data.frame(background = background,                                       # fraction of background reads
                           timepoint = as.factor(gsub('.{0,6}$', '', colnames(matrix))))  # extract information about treatment from seed name
                           
   # normalize using Seurat
   norm_seeds <- NormalizeData(CreateSeuratObject(counts = matrix, meta.data = seed_attr), verbose = FALSE)
   
-  #export normalized data
+  # export normalized data
   norm_seeds <- as.matrix(GetAssayData(object = norm_seeds, slot = "data"))
   
-  # correlation of gene's reads with background fraction for each treatment
+  # correlation of gene's read count with background fraction for each treatment
   timepoints <- levels(seed_attr$timepoint)
   
   background_corr <- lapply (timepoints, function (x) { 
@@ -25,7 +25,7 @@ correlation_table <- function(matrix, background) {
                             [which(seed_attr$timepoint == x)])$estimate)
   })
   
-  # global correlation of gene's UMIs with background percent
+  # correlation of gene's read count with background fraction when all seeds combined
   background_corr$all <- apply (norm_seeds,1, function(x) {
                                 cor.test(x,seed_attr$background)$estimate})
   
