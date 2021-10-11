@@ -386,25 +386,22 @@ cluster_1 cluster_2 cluster_3 cluster_4 cluster_5
 
 Identified co-expressed gene groups were used to create signatures that were plotted on PCA maps.
 
-Time-course experiment
+time-course experiment
 ``` R
 seurat_timecourse <- AddModuleScore(seurat_timecourse, features = clusters_timepoint, name = "cluster_")
 
-signature_map (seurat_timecourse, signature = "cluster_1", 
-               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_1", order = timepoints, column = "timepoint")
 
-signature_map (seurat_timecourse, signature = "cluster_2", 
-               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_2", order = timepoints, column = "timepoint")
 
-signature_map (seurat_timecourse, signature = "cluster_3", 
-               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_3", order = timepoints, column = "timepoint")
 
-signature_map (seurat_timecourse, signature = "cluster_4", 
-               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_4", order = timepoints, column = "timepoint")
 
-signature_map (seurat_timecourse, signature = "cluster_5", 
-               order = c ("SD1h","SD1d","SD3d","SD5d","SD7d","SD7d24h","SD7dPS"), column = "timepoint")
+signature_map (seurat_timecourse, signature = "cluster_5",  rder = timepoints, column = "timepoint")
 ```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/cluster1_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster2_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster3_pca.png" width=33% height=33%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/cluster4_pca.png" width=33% height=33%> <img src="https://github.com/mk1859/single_seed/blob/main/images/cluster5_pca.png" width=33% height=33%>
 
 dog1 experiment
 ``` R
@@ -609,7 +606,6 @@ ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
                 scale_fill_tableau("Miller Stone") +
                 ylab ("genes")
 ```
-
 
 ## *dog1-4* vs Col-0 dry seed pool DEGs
 
