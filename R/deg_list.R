@@ -1,13 +1,13 @@
-# wrapper function to Seurat FindMarkers that allows to pairwise compare gene expression between conditions named in two vectors
-# as input requires seurat obcject, column of metadata containing names of conditions, two vectors with condition names as well as 
-# padj and log2 fold change tresholds
+# a wrapper function to Seurat FindMarkers that allows to pairwise compare gene expression between conditions named in two vectors
+# as input it requires Seurat object, a column of metadata containing names of conditions, two vectors with condition names as well as 
+# padj and log2 fold change thresholds
 # function generates list as output which elements contain data frames with significant DEGs
 
 deg_list <- function(seurat_obj, vector1, vector2, column, padj = 0.05, log2FC_threshold = log2(2)) {
     require (Seurat)
     require (dplyr)
     
-    # set column to active identity in Seurat object
+    # set column to be active identity in Seurat object
     seurat_obj@active.ident <- as.factor(seurat_obj [[column]] [,1])
     names (seurat_obj@active.ident) <- rownames (seurat_obj@meta.data)
     
