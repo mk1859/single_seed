@@ -346,7 +346,7 @@ hvg_go <- go_res (hvg_timecourse$gene, background = rownames(filtered_timecourse
 
 go_bubble (hvg_go)
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_go.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_go_all.png" width=50% height=50%>
 
 We also identified co-expressed gene groups using the coexpressed function. It calculates pairwise gene expression correlations and filters them. Next, it creates a graph object, looks for highly connected groups in it and outputs groups with gene numbers above the set threshold.
 
