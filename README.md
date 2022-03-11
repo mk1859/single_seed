@@ -482,7 +482,7 @@ ggplot(hvg_timepoints, aes(x=timepoint, y= log10(residual_variance), color = tim
   ylab ("log10 residual_variance") 
 
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_variance.png" width=30% height=30%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_variance.png" width=60% height=60%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/jitter_variance.png" width=50% height=50%>
 
 The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
