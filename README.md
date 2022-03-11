@@ -434,9 +434,9 @@ We finally plotted levels of two signatures using the sig_vs_sig function.
 
 time-course experiment
 ``` R
-sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", exclude= "SD7dPS", order = timepoints, column = "timepoint")
+sig_vs_sig (seurat_timecourse, "cluster_1", "cluster_2", order = timepoints, column = "timepoint")
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/timecourse_sign.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/sig_vs_sig_timecourse.png" width=50% height=50%>
 
 *dog1-4* experiment
 ``` R
