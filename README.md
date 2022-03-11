@@ -598,7 +598,8 @@ ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
                 geom_bar(stat='identity') +
                 theme_classic() +
                 scale_fill_tableau("Miller Stone") +
-                ylab ("genes")
+                ylab ("genes") +
+                coord_flip()
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/n_clust_timepoints.png" width=50% height=50%>
 
