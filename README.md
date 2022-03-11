@@ -339,7 +339,7 @@ gene_exp (seurat_timecourse, gene = "AT2G36270", order = timepoints, column = "t
 
 We identified 500 most variably expressed genes in the time-course experiment and looked for GO terms enriched among them in BP ontology.
 ``` R
-hvg_timecourse <- hvg (seurat_timecourse, top = 500)
+hvg_timecourse <- FindVariableFeatures(subset(seurat_timecourse, idents = c("SD7dPS"), invert = TRUE), nfeatures = 500)@assays$SCT@var.features
 
 hvg_go <- go_res (hvg_timecourse$gene, background = rownames(filtered_timecourse), 
                   p_value = 0.05, category = "BP", rrvgo_threshold=0.8)
