@@ -454,24 +454,36 @@ selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg
 timepoint_seurats <- list_seurat (selected_genes, background = background_timecourse)
 ```
 
-To estimate gene expression variability in each time point we calculated the expression variance of the top 200 variable genes.
+To estimate gene expression variability in each time point we checked values of residual variance after sctrasform procedure.
 ``` R
-hvg_timepoints <- lapply (timepoint_seurats, function (x) hvg (x, top = 200)) 
 
+hvg_timepoints <- lapply (seurat_timecourse, HVFInfo)
 hvg_timepoints <- rbindlist(hvg_timepoints, idcol = "timepoint")
 
 # set order of time point
 hvg_timepoints$timepoint <- factor(hvg_timepoints$timepoint, levels = timepoints)
 
-# plot variance
-ggplot(hvg_timepoints, aes(x=timepoint, y= log10(var), color = timepoint)) +
-  geom_boxplot() +
+# plot residual variance
+ggplot(plot, aes(x=log10(gmean), y= residual_variance, color = residual_variance > 4)) +
+  geom_point (size = 2) + 
+  scale_color_tableau() +
+  theme_classic () +
+  facet_wrap(vars(timepoint), nrow = 1)+
+  theme(strip.background = element_blank())
+
+# select only highly variable genes
+hvg_timepoints <- hvg_timepoints [which(hvg_timepoints$residual_variance > 4),]
+
+# plot them
+ggplot(hvg_timepoints, aes(x=timepoint, y= log10(residual_variance), color = timepoint)) +
+  geom_jitter(size = 2) +
   theme_classic() + 
   scale_color_tableau() +
-  ylab ("log10(variance)") +
-  theme(legend.position = "none")
+  ylab ("log10 residual_variance") 
+
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_boxplot.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_variance.png" width=30% height=30%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/jitter_variance.png" width=50% height=50%>
 
 The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
 To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
