@@ -601,7 +601,7 @@ ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
                 ylab ("genes") +
                 coord_flip()
 ```
-<img src="https://github.com/mk1859/single_seed/blob/main/images/n_clust_timepoints.png" width=50% height=50%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/coexpressed_timepoints.png" width=50% height=50%>
 
 ## *dog1-4* vs Col-0 seed pool DEGs
 
