@@ -481,10 +481,16 @@ ggplot(hvg_timepoints, aes(x=timepoint, y= log10(residual_variance), color = tim
   theme_classic() + 
   scale_color_tableau() +
   ylab ("log10 residual_variance") 
+  
+# find overlaps between highly varaible genes from different time points
 
+overlap <- aggregate(gene ~ timepoint, hvg_timepoints, c)$gene
+names (overlap) <- levels(as.factor(hvg_timepoints$timepoint))
+upset(fromList(overlap), order.by = "freq", nsets = 7, nintersects = NA, group.by = "degree")
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_variance.png" width=90% height=90%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/jitter_variance.png" width=30% height=30%>
+<img src="https://github.com/mk1859/single_seed/blob/main/images/upsetR_overlap.png" width=30% height=30%>
 
 The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
 To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
