@@ -458,7 +458,7 @@ timepoint_seurats <- list_seurat (selected_genes, background = background_timeco
 To estimate gene expression variability in each time point we checked values of residual variance after sctrasform procedure.
 ``` R
 
-hvg_timepoints <- lapply (seurat_timecourse, HVFInfo)
+hvg_timepoints <- lapply (timepoint_seurats, HVFInfo)
 hvg_timepoints <- rbindlist(hvg_timepoints, idcol = "timepoint")
 
 # set order of time point
@@ -490,6 +490,28 @@ upset(fromList(overlap), order.by = "freq", nsets = 7, nintersects = NA, group.b
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/hvg_variance.png" width=90% height=90%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/jitter_variance.png" width=30% height=30%> <img src="https://github.com/mk1859/single_seed/blob/main/images/upsetR_overlap.png" width=30% height=30%>
+
+Calculate percentage of variance explained by PC1-50 in each time point.
+``` R
+var_exp <- lapply (timepoint_seurats, function (x){
+                    (x@reductions$pca@stdev)^2/sum((x@reductions$pca@stdev)^2)*100})
+var_exp <- data.frame(timepoint = rep(names(var_exp), each = 50), PC = 1:50, var = unlist(var_exp))
+
+var_exp$timepoint <- factor(var_exp$timepoint, 
+                      levels = levels(as.factor(var_exp$timepoint)) [c(2,1,3:7)])
+
+ggplot(var_exp, aes(x=PC, y= var, color = timepoint)) +
+  geom_point (size = 2) + 
+  scale_color_tableau() +
+  theme_classic () +
+  facet_wrap(vars(timepoint), nrow = 1)+
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        axis.title.x = element_blank(), 
+        axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/PC_explained.png" width=90% height=90%>
 
 The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
 To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
