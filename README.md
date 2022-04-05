@@ -37,7 +37,7 @@ On GEO we deposited results of three different experiments.
 
 2) single seed RNA-seq for *dog1-4* mutant and Col-0 in two time points of secondary dormancy induction. Each of the four treatments (genotype + time point) consist of 3 libraries and count matrices have the same structure as above.
 
-3) RNA-seq results for the analysis of *dog1-4* and Col-0 dry seed pools (3 biological replicas). Here we provide read counts as separate files for each of the replicas. 
+3) 3'RNA-seq results for the analysis of *dog1-4* and Col-0 dry seed pools (3 biological replicas). Here we provide read counts as separate files for each of the replicas. 
 
 We created the function called import_counts to upload the data and combine matrices into a single matrix.
 
@@ -646,7 +646,7 @@ ggplot (number_coexp, aes (x = timepoint, y = x, fill= cluster)) +
 ## *dog1-4* vs Col-0 seed pool DEGs
 
 We sequenced mRNAs isolated from pools of dry seeds to elucidate the role of DOG1 in the establishment of gene expression patterns.
-We identified DEGs using DESeq2 (REF).
+We identified DEGs using DESeq2.
 ``` R
 # metadata
 col_data <- data.frame (library = colnames(data_dry_dog1),
