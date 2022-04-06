@@ -205,7 +205,7 @@ nrow (filtered_dog1) # genes remaining
 
 ## Seurat object
 
-After we obtained filtered matrices of counts for both single seed experiments, we created Seurat objects (REF) with sctransform normalization (REF). To do this, we prepared a wrapper function that takes the count matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as a variable to regress.
+After we obtained filtered matrices of counts for both single seed experiments, we created Seurat objects with sctransform normalization. To do this, we prepared a wrapper function that takes the count matrix and extracts information about seeds from their names. Optionally fraction of background reads may be used as a variable to regress.
 
 Time-course experiment. Here, due to high background content in some libraries, we regressed the fraction of background reads.
 ``` R
