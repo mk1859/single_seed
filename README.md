@@ -330,6 +330,55 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/dry_heatmap.png" width=33% height=33%>
 
+Germination assays after secondary dormancy induction treatment show gradual increase of dormany levels. We wanted to identify subset of genes whose expression changes are correlated with that trend.
+
+``` R
+# first we identify genes which expression changes during the treatment
+deg <- deg_list (seurat_timecourse, 
+                 vector1 = c ("SD1d","SD3d","SD5d"), 
+                 vector2 = c ("SD7d","SD7d","SD7d"), 
+                 column = "timepoint", padj = 0.05, log2FC_threshold = log2(2))
+
+deg <- lapply (deg, function(x) mutate(x, gene = rownames(x)))
+
+genes <- (rbindlist(deg))$gene
+genes <- genes [-which(duplicated(genes))]
+
+# we export normalized gene expression and avarege it for seeds repersenting time points
+norm_reads <- as.matrix(seurat_timecourse@assays$SCT@data)
+
+norm_genes<- data.frame(SD_1d = rowMeans(norm_reads [,grep("SD1d", colnames(norm_reads))]),
+                        SD_3d = rowMeans(norm_reads [,grep("SD3d", colnames(norm_reads))]),
+                        SD_5d = rowMeans(norm_reads [,grep("SD5d", colnames(norm_reads))]),
+                        SD_7d = rowMeans(norm_reads [,grep("SD7d.", colnames(norm_reads))])) 
+
+# we filter genes affected during treatment and scale their expression
+norm_genes <- norm_genes [which(rownames(norm_genes)%in% genes),]
+
+norm_genes <- as.data.frame(t(scale(t(norm_genes))))
+
+# we cluster gene expression into 12 groups
+gene_clusters <- norm_genes %>% 
+  dist(.) %>%
+  hclust(., method = "complete") %>%
+  cutree(., k = 12) %>%
+  enframe(., name = "gene", value = "cluster")
+  
+ # finally we prepare data frame for plotting
+ norm_genes <- norm_genes %>%
+  mutate (.,gene = rownames(norm_genes)) %>%
+  pivot_longer(., cols = SD_1d:SD_7d, names_to = "SD", values_to = "exp") %>%
+  merge (.,gene_clusters, by= "gene") 
+
+ggplot(norm_genes, aes(SD, exp, color = as.factor(cluster))) +
+  geom_line(aes(group = gene), alpha = 0.3) +
+  facet_wrap(~ cluster, ncol = 2)+ 
+  theme_classic() + 
+  theme(legend.position = "none") + 
+  scale_color_tableau("Tableau 20")
+```
+<img src="https://github.com/mk1859/single_seed/blob/main/images/clustered_plots.png" width=33% height=33%>
+
 ## Gene expression patterns
 
 We created a function to plot normalized expression of a gene on PCA plot with violin plot inset to show its expression in treatments selected by the variable called column.
