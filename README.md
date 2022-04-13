@@ -78,13 +78,13 @@ head (Araport)
 ## Pre-filtering single seed data
 
 Similarly to single-cell experiments, our count data is sparse. We needed to clean it by:
-1) removing of non-protein-coding genes
-2) removing of genes encoded in organelles
-3) removing of summary lines at last rows of the count matrix
+1) removing non-protein-coding genes
+2) removing genes encoded in organelles
+3) removing summary lines at last rows of the count matrix
 4) filtering out genes with a low count number
 5) filtering seeds with not enough reads
 
-To do that we created function prefilter_matrix and applied it to our single seed matrices. By default it uses Araport data frame with columns described as above.
+To do that we created the function prefilter_matrix and applied it to our single seed matrices. By default, it uses the Araport data frame with columns described above.
 We require the mean expression of a gene to be at least 1 read per seed for a gene to remain and at least 5,000 reads per seed for a seed to remain.
 
 ``` R
@@ -134,7 +134,7 @@ background_timecourse <- background_reads (data_timecourse, filtered_timecourse)
 background_dog1 <- background_reads (data_dog1, filtered_dog1)
 ```
 
-Then, we made plots for the number of target reads and fraction of background reads with the background_plot function.
+Then, we made plots for the number of target reads and the fraction of background reads with the background_plot function.
 
 time-course experiment
 ``` R
@@ -149,7 +149,7 @@ background_plot (filtered_dog1, order = treatments, background = background_dog1
 <img src="https://github.com/mk1859/single_seed/blob/main/images/background_dog1.png" width=50% height=50%>
 
 The abundance of background reads may imply that some counts attributed to genes may not reflect their expression.
-Closer examination of read tracks in the browser showed that the distribution of background reads is not random and they tend to create hot spots laying both between genes and partially overlapping with them. In addition, the strength of genic peaks is negatively correlated with the number of background reads.
+A closer examination of reads' tracks in the browser showed that the distribution of background reads is not random and they tend to create hot spots laying both between genes and partially overlapping with them. In addition, the strength of genic peaks is negatively correlated with the number of background reads.
 Based on these observations, we decided to remove from our analysis genes whose read count is strongly positively correlated with the number of background reads. As gene expression patterns are different between treatments, we calculated these correlations for each of them separately as well as for all seeds combined. To do that we wrote the function called correlation_table.
 
 ``` R
@@ -218,7 +218,7 @@ seurat_dog1 <- seurat_object (filtered_dog1, background = background_dog1, inclu
 ```
 
 We calculated PCA during the preparation of Seurat objects. Now, we plotted it to show treatments and batches (libraries) with the pca_discrete function.
-This function exports dimension reduction and metadata from the Seurat object. It is possible to choose color pallet from ggthemes and exclude some treatments from the plot.
+This function exports dimension reduction and metadata from the Seurat object. It is possible to choose a color pallet from ggthemes and exclude some treatments from the plot.
 
 time-course experiment
 ``` R
@@ -261,7 +261,7 @@ pca_continuous (seurat_dog1, column = "background")
 
 ## Differential gene expression
 
-To compare gene expression changes between two sets of conditions, we created a wrapper function to Seurat FindMarkers.
+To compare gene expression changes between two sets of conditions, we created a wrapper function for Seurat FindMarkers.
 
 For the time-course experiment, we compared sequential time points.
 ``` R
@@ -330,7 +330,7 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/dry_heatmap.png" width=33% height=33%>
 
-Germination assays after secondary dormancy induction treatment show gradual increase of dormany levels. We wanted to identify subset of genes whose expression changes are correlated with that trend.
+Germination assays after secondary dormancy induction treatment show a gradual increase in dormancy levels. We wanted to identify a subset of genes whose expression changes are correlated with that trend.
 
 ``` R
 # first we identify genes which expression changes during the treatment
@@ -344,7 +344,7 @@ deg <- lapply (deg, function(x) mutate(x, gene = rownames(x)))
 genes <- (rbindlist(deg))$gene
 genes <- genes [-which(duplicated(genes))]
 
-# we export normalized gene expression and avarege it for seeds repersenting time points
+# we export normalized gene expression and average it for seeds representing time points
 norm_reads <- as.matrix(seurat_timecourse@assays$SCT@data)
 
 norm_genes<- data.frame(SD_1d = rowMeans(norm_reads [,grep("SD1d", colnames(norm_reads))]),
@@ -531,7 +531,7 @@ ggplot(hvg_timepoints, aes(x=timepoint, y= log10(residual_variance), color = tim
   scale_color_tableau() +
   ylab ("log10 residual_variance") 
   
-# find overlaps between highly varaible genes from different time points
+# find overlaps between highly variable genes from different time points
 
 overlap <- aggregate(gene ~ timepoint, hvg_timepoints, c)$gene
 names (overlap) <- levels(as.factor(hvg_timepoints$timepoint))
@@ -562,7 +562,7 @@ ggplot(var_exp, aes(x=PC, y= var, color = timepoint)) +
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/PC_explained.png" width=90% height=90%>
 
-The variance of genes expression does not say anything if gene expression variability is random or create some patterns among seeds.
+The variance of genes expression does not say anything if gene expression variability is random or creates some patterns among seeds.
 To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
 ``` R
 # Seurat function FindNeighbors
@@ -612,7 +612,7 @@ ggplot(plot, aes(x=PC_1, y= PC_2, color = seurat_clusters, group = timepoint)) +
 <img src="https://github.com/mk1859/single_seed/blob/main/images/clusters_each.png" width=50% height=50%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/degs_each_tiempoint.png" width=50% height=50%>
 
-We identified cluster_1 and cluster_2 gene groups with largely antagonistic expression during the time course. We wanted to check if their expression pattern can distinguish seeds in each time point. AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input. To create such signature we the used Vision package (REF).
+We identified cluster_1 and cluster_2 gene groups with largely antagonistic expression during the time course. We wanted to check if their expression pattern can distinguish seeds at each time point. AddModuleScore from Seurat does not allow creating complex gene expression signatures with some genes having positive and some negative input. To create such a signature we the used Vision package.
 
 ``` R
 # create gene expression signature for Vision
@@ -663,7 +663,7 @@ ggplot(plot, aes(x=seurat_clusters, y= germ_comp, color = seurat_clusters)) +
 <img src="https://github.com/mk1859/single_seed/blob/main/images/sign_pca.png" width=50% height=50%>
 <img src="https://github.com/mk1859/single_seed/blob/main/images/sign_boxplots.png" width=50% height=50%>
 
-Finally, identification of co-expressed genes groups in time point may point to the presence of coherent gene expression patterns among seeds.
+Finally, the identification of co-expressed genes groups in time point may point to the presence of coherent gene expression patterns among seeds.
 ``` R
 timepoints_clusters <- lapply (timepoint_seurats, function (x) coexpressed (x, threshold =0.5, n_genes = 10))
 
