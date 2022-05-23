@@ -1,4 +1,4 @@
-Here we provide code for the preparation of most of the figures for "Transcriptional heterogeneity of single seeds during the secondary dormancy induction".
+Here we provide code for the preparation of most of the figures for "Single seeds exhibit transcriptional heterogeneity during secondary dormancy induction".
 
 #### Load required R packages.
 
@@ -85,7 +85,7 @@ Similarly to single-cell experiments, our count data is sparse. We needed to cle
 5) filtering seeds with not enough reads
 
 To do that we created the function prefilter_matrix and applied it to our single seed matrices. By default, it uses the Araport data frame with columns described above.
-We require the mean expression of a gene to be at least 1 read per seed for a gene to remain and at least 5,000 reads per seed for a seed to remain.
+We require the mean expression of a gene to be at least 1 read on average per seed for a gene to remain and at least 5,000 reads per seed for a seed to remain.
 
 ``` R
 # time-course experiment
@@ -297,7 +297,7 @@ translation_list$SD3d_down <- rownames (deg_timecourse$SD1d_SD3d [deg_timecourse
 translation_list$SD7d24h_up <- rownames (deg_timecourse$SD7d_SD7d24h [deg_timecourse$SD7d_SD7d24h$avg_log2FC > 0,])
 
 # function to create a data frame with enriched go terms for lists of genes 
-# using rrvgo package it also generalizes results by finding parent GO terms
+# using rrvgo package we generalize results by finding parent GO terms
 
 translation_go <- multiple_genelists (translation_list, background = rownames(filtered_timecourse), 
                                       p_value = 0.05, rrvgo_threshold=0.99)
@@ -310,7 +310,7 @@ go_heatmap (translation_go, term_name =FALSE, term_category = TRUE, parent_term 
 <img src="https://github.com/mk1859/single_seed/blob/main/images/translation_heatmap.png" width=50% height=50%>
 
 We decided to plot the expression of genes belonging to the translation GO term on the PCA map.
-The function allows selecting column with treatments and excluding one of them. Values of expression for treatments are plotted as violin plots in the indicated order.
+The function allows selecting column with treatments and excluding some of them. Values of expression for treatments are plotted as violin plots in the indicated order.
 
 ``` R
 go_pca_map (seurat_timecourse, go_id = "GO:0006412", excluded = NULL, column = "timepoint", order =  timepoints)
@@ -333,7 +333,7 @@ go_heatmap (dry_go, term_name =TRUE, term_category = FALSE, parent_term = FALSE)
 Germination assays after secondary dormancy induction treatment show a gradual increase in dormancy levels. We wanted to identify a subset of genes whose expression changes are correlated with that trend.
 
 ``` R
-# first we identify genes which expression changes during the treatment
+# first we identify genes whose expression changes during the treatment
 deg <- deg_list (seurat_timecourse, 
                  vector1 = c ("SD1d","SD3d","SD5d"), 
                  vector2 = c ("SD7d","SD7d","SD7d"), 
@@ -504,7 +504,7 @@ selected_genes <- select_genes(filtered_timecourse, treatments = timepoints, avg
 timepoint_seurats <- list_seurat (selected_genes, background = background_timecourse)
 ```
 
-To estimate gene expression variability in each time point we checked values of residual variance after sctrasform procedure.
+To estimate gene expression variability in each time point we checked values of residual variance after sctransform procedure.
 ``` R
 
 hvg_timepoints <- lapply (timepoint_seurats, HVFInfo)
@@ -562,7 +562,7 @@ ggplot(var_exp, aes(x=PC, y= var, color = timepoint)) +
 ```
 <img src="https://github.com/mk1859/single_seed/blob/main/images/PC_explained.png" width=90% height=90%>
 
-The variance of genes expression does not say anything if gene expression variability is random or creates some patterns among seeds.
+The variance of genes expression does not say if gene expression variability is random or creates some patterns among seeds.
 To find how much seeds differ in each time point, we divided them into sub-pools and performed differential gene expression analysis between them.
 ``` R
 # Seurat function FindNeighbors
